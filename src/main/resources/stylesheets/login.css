@@ -1,3 +1,18 @@
+.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.fa-facebook{
+    color: #fff;
+    background-color: #3b5998;
+}
+
+#logout{
+    display: none;
+}
+
 .underline a{
     position: relative;
     color: #000000;

@@ -3,32 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Web Workout Manager</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="../stylesheets/login.css">
 </head>
 <body>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '455560305185638',
+                cookie: true,
+                xfbml: true,
+                version: 'v3.2'
+            });
+
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function statusChangeCallback(response){
+            if(response.status === 'connected'){
+                console.log('Logged in baby');
+                setElements(true);
+                testAPI();
+            } else {
+                console.log('Not authenticated');
+                setElements(false);
+            }
+        }
+
+
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
+
+        function testAPI(){
+            FB.api('/me?fields=name,email', function(response){
+                if(response && !response.error){
+                    console.log(response);
+                }
+            })
+        }
+
+        function setElements(isLoggedIn){
+            if(isLoggedIn){
+                document.getElementById('createAccount').style.display = 'none';
+                document.getElementById('logout').style.display = 'block';
+
+            } else {
+                document.getElementById('createAccount').style.display = 'block';
+                document.getElementById('logout').style.display = 'none';
+
+            }
+        }
+
+        function logout(){
+            FB.logout(function(response){
+                setElements(false);
+            });
+        }
+    </script>
     <div>
         <nav class="navbar navbar-light bg-light">
             <span>
                 <a class="navbar-brand" href="/">Main page</a>
             </span>
-            <span class="underline">
-                <a class="navbar-link" href="#">Create an account</a>
+            <span>
+                <a id="createAccount" class="badge badge-pill badge-secondary" href="#">Create an account</a>
+                <a id="logout" href="#" onclick="logout()">Logout</a>
             </span>
         </nav>
-        <div>
-            <h2>
-                Web Workout Manager
-            </h2>
-            <p>
-                Log in to access your profile and past achievements !
-            </p>
+        <div class="container text-center">
+            <h2 class="font-weight-bold">Web Workout Manager</h2>
+            <p>Log in to access your profile and past achievements !</p>
             <div>
                 <div>
                     <label>
-                        <span>
-                            Username
-                        </span>
+                        <span>Username</span>
                     </label>
                     <div>
                         <input type="text">
@@ -36,26 +104,26 @@
                 </div>
                 <div>
                     <label>
-                        <span>
-                            Password
-                        </span>
+                            <span>
+                                Password
+                            </span>
                     </label>
                     <div>
                         <input type="text">
                     </div>
                 </div>
-                <div>
-                    <button>
-                        Log in to your account
-                    </button>
+                <div class="my-2">
+                    <button class="btn btn-secondary">Log in to your account</button>
                 </div>
-                <div>
-                    <button>
-                        Log in with Facebook
-                    </button>
+                <div class="my-2">
+                    <button class="btn btn-social btn-facebook"><i class="fab fa-facebook pr-1"></i>Log in with Facebook</button>
+                    <fb:login-button
+                            scope="public_profile,email"
+                            onlogin="checkLoginState();">
+                    </fb:login-button>
                 </div>
             </div>
-            <p>
+            <p class="underline">
                 Need an account?
                 <a>
                     Create your Web Workout Manager account.
@@ -63,6 +131,5 @@
             </p>
         </div>
     </div>
-
 </body>
 </html>
