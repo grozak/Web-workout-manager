@@ -14,7 +14,9 @@ public class Exercise {
     private String category;
     private String name;
     private Integer numberOfSeries;
+    @ElementCollection
     private List<Integer> numberOfReiteration;
+    @ElementCollection
     private List<Integer> weights;
 
     public Exercise(){}

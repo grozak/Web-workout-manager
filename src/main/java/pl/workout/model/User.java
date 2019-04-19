@@ -11,6 +11,7 @@ public class User {
     private Integer id;
     @OneToMany
     private Set<User> friendList;
+    @OneToOne(cascade = CascadeType.ALL)
     private Calendar calendar;
 
     public User(){
