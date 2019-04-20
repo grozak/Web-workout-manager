@@ -1,6 +1,5 @@
 package pl.workout.controller;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.workout.model.Exercise;
@@ -35,9 +34,6 @@ public class ExerciseController {
         User user = userService.getUserById(userId);
         exercise.setUser(user);
         exerciseService.createExercise(exercise);
-        List<Exercise> exerciseList = user.getExerciseList();
-        exerciseList.add(exercise);
-        user.setExerciseList(exerciseList);
     }
 
     @DeleteMapping("/users/{userId}/exercises/{exerciseId}")
@@ -46,18 +42,16 @@ public class ExerciseController {
         exerciseService.deleteExercise(exerciseId);
     }
 
-
-    //update not working yet todo
     @PutMapping("/users/{userId}/exercises/{exerciseId}")
     public void updateExercise(@PathVariable(value = "userId") Integer userId,
                               @PathVariable(value = "exerciseId") Integer exerciseId,
-                              @RequestBody Exercise exercise){
-        User user = userService.getUserById(userId);
-        List<Exercise> exerciseList = user.getExerciseList();
-        exerciseList.remove(exerciseService.getExerciseById(exerciseId));
-        exerciseList.add(exercise);
-        user.setExerciseList(exerciseList);
-
+                              @RequestBody Exercise exerciseRequest){
+        Exercise exercise = exerciseService.getExerciseById(exerciseId);
+        exercise.setCategory(exerciseRequest.getCategory());
+        exercise.setName(exerciseRequest.getName());
+        exercise.setNumberOfSeries(exerciseRequest.getNumberOfSeries());
+        exercise.setNumberOfReiteration(exerciseRequest.getNumberOfReiteration());
+        exercise.setWeights(exerciseRequest.getWeights());
         exerciseService.updateExercise(exercise);
     }
 }

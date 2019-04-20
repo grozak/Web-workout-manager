@@ -26,6 +26,11 @@ public class UserController {
         return userService.createUser(new User(facebookId));
     }
 
+    @PutMapping("/users")
+    public void updateUser(@RequestBody User user){
+        userService.updateUser(user);
+    }
+
     @DeleteMapping("/users/{userId}")
     public void deleteUser(@PathVariable(value = "userId") Integer userId){
         userService.deleteUser(userId);

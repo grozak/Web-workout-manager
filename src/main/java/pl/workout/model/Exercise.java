@@ -16,7 +16,7 @@ public class Exercise {
     private User user;
     @Column(updatable = false)
     @Temporal(TemporalType.DATE)
-    private java.util.Calendar calendarDate;
+    private java.util.Date date = java.util.Calendar.getInstance().getTime();
     private String category;
     private String name;
     private Integer numberOfSeries;
@@ -28,8 +28,7 @@ public class Exercise {
     public Exercise(){}
 
     public Exercise(User user, String category, String name, Integer numberOfSeries, List<Integer> numberOfReiteration, List<Integer> weights) {
-        this.user = user;
-        this.calendarDate = java.util.Calendar.getInstance();
+        this.user = user;java.util.Calendar.getInstance().getTime();
         this.category = category;
         this.name = name;
         this.numberOfSeries = numberOfSeries;
@@ -53,8 +52,8 @@ public class Exercise {
         this.user = user;
     }
 
-    public java.util.Calendar getCalendarDate() {
-        return calendarDate;
+    public java.util.Date getDate() {
+        return date;
     }
 
     public String getCategory() {
