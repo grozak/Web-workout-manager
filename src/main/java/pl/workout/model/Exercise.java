@@ -1,5 +1,7 @@
 package pl.workout.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,6 +10,10 @@ public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
+    private User user;
     @Column(updatable = false)
     @Temporal(TemporalType.DATE)
     private java.util.Calendar calendarDate;
@@ -21,9 +27,10 @@ public class Exercise {
 
     public Exercise(){}
 
-    public Exercise(String category, String name, Integer numberOfSeries, List<Integer> numberOfReiteration, List<Integer> weights) {
-        this.category = category;
+    public Exercise(User user, String category, String name, Integer numberOfSeries, List<Integer> numberOfReiteration, List<Integer> weights) {
+        this.user = user;
         this.calendarDate = java.util.Calendar.getInstance();
+        this.category = category;
         this.name = name;
         this.numberOfSeries = numberOfSeries;
         this.numberOfReiteration = numberOfReiteration;
@@ -36,6 +43,14 @@ public class Exercise {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public java.util.Calendar getCalendarDate() {

@@ -1,7 +1,11 @@
 package pl.workout.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,10 +16,12 @@ public class User {
     private Integer facebookId;
     @OneToMany
     private Set<User> friendList = new HashSet<>();
-    @OneToOne(cascade = CascadeType.ALL)
-    private Calendar calendar = new Calendar();
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @JsonManagedReference
+    private List<Exercise> exerciseList = new ArrayList<>();
 
-    public User(){}
+    public User(){
+    }
 
     public User(int facebookId){
         this.facebookId = facebookId;
@@ -45,11 +51,11 @@ public class User {
         this.friendList = friendList;
     }
 
-    public Calendar getCalendar() {
-        return calendar;
+    public List<Exercise> getExerciseList() {
+        return exerciseList;
     }
 
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
+    public void setExerciseList(List<Exercise> exerciseList) {
+        this.exerciseList = exerciseList;
     }
 }

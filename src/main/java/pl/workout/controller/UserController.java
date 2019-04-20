@@ -1,15 +1,9 @@
 package pl.workout.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.workout.model.User;
 import pl.workout.service.UserService;
-
-import java.util.Map;
-
 
 @RestController
 public class UserController {
@@ -22,8 +16,18 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/users")
-    public User createUser(@RequestBody Map<String, Integer> map){
-        return userService.createUser(new User(map.get("facebookId")));
+    @GetMapping("/users/{userId}")
+    public User getUser(@PathVariable(value = "userId") Integer userId){
+        return userService.getUserById(userId);
+    }
+
+    @PostMapping("/users/{facebookId}")
+    public User createUser(@PathVariable(value = "facebookId") Integer facebookId){
+        return userService.createUser(new User(facebookId));
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public void deleteUser(@PathVariable(value = "userId") Integer userId){
+        userService.deleteUser(userId);
     }
 }
