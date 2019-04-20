@@ -9,14 +9,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private Integer facebookId;
     @OneToMany
-    private Set<User> friendList;
+    private Set<User> friendList = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
-    private Calendar calendar;
+    private Calendar calendar = new Calendar();
 
-    public User(){
-        this.friendList = new HashSet<>();
-        this.calendar = new Calendar();
+    public User(){}
+
+    public User(int facebookId){
+        this.facebookId = facebookId;
     }
 
     public Integer getId() {
@@ -25,6 +27,14 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(Integer facebookId) {
+        this.facebookId = facebookId;
     }
 
     public Set<User> getFriendList() {

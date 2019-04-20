@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.workout.model.User;
 import pl.workout.service.UserService;
 
+import java.util.Map;
+
 
 @RestController
 public class UserController {
@@ -17,18 +19,11 @@ public class UserController {
     @GetMapping("/users")
     public Iterable<User> getAllUsers(){
         userService.createUser(new User());
-        userService.createUser(new User());
-        userService.createUser(new User());
         return userService.getAllUsers();
     }
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user){
-        return userService.createUser(user);
-    }
-
-    @GetMapping("/user")
-    public String aaaa(){
-        return "aaaa";
+    public User createUser(@RequestBody Map<String, Integer> map){
+        return userService.createUser(new User(map.get("facebookId")));
     }
 }

@@ -10,11 +10,9 @@ public class Calendar {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToMany()
-    private List<Exercise> exerciseList;
+    private List<Exercise> exerciseList = new ArrayList<>();
 
-    public Calendar(){
-        this.exerciseList = new ArrayList<>();
-    }
+    public Calendar(){}
 
     public Integer getId() {
         return id;
