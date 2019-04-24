@@ -77,5 +77,9 @@ function showCalendar(month, year) {
 
         tbl.appendChild(row); // appending each row into calendar body.
     }
+    test();
+}
 
+function test(){
+    console.log("xd")
 }
