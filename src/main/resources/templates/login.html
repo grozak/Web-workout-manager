@@ -5,7 +5,7 @@
     <title>Web Workout Manager</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../stylesheets/login.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
 </head>
 <body>
     <div id="fb-root"></div>
@@ -39,7 +39,7 @@
         function statusChangeCallback(response){
             if(response.status === 'connected'){
                 console.log('Logged in');
-                window.location.assign(`http://localhost:8080/dashboard/${response.authResponse.userID}`);
+                window.location.assign(`http://localhost:9380/dashboard/${response.authResponse.userID}`);
             } else {
                 console.log('Not authenticated');
             }
@@ -47,7 +47,7 @@
 
         function login(){
             FB.login(function(response){
-                window.location.assign(`http://localhost:8080/dashboard/${response.authResponse.userID}`);
+                window.location.assign(`http://localhost:9380/dashboard/${response.authResponse.userID}`);
             });
         }
     </script>

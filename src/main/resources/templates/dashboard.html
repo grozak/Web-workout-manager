@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/">
     <meta charset="UTF-8">
     <title>Web Workout Manager</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../stylesheets/login.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css"/>
 </head>
 <body>
     <div id="fb-root"></div>
@@ -44,7 +45,7 @@
 
         function logout(){
             FB.logout(function(response){
-                window.location.assign("http://localhost:8080");
+                window.location.assign("http://localhost:9380");
             });
         }
     </script>
@@ -149,6 +150,6 @@
             </select></form>
         </div>
     </div>
-    <script src="../static/dashboard.js"></script>
+    <script type="text/javascript" src="/js/dashboard.js"><!--comment inside--></script>
 </body>
 </html>
