@@ -39,7 +39,7 @@
         function statusChangeCallback(response){
             if(response.status === 'connected'){
                 console.log('Logged in');
-                window.location.assign(`http://localhost:9380/dashboard/${response.authResponse.userID}`);
+                window.location.assign(`/dashboard/${response.authResponse.userID}`);
             } else {
                 console.log('Not authenticated');
             }
@@ -47,7 +47,7 @@
 
         function login(){
             FB.login(function(response){
-                window.location.assign(`http://localhost:9380/dashboard/${response.authResponse.userID}`);
+                window.location.assign(`/dashboard/${response.authResponse.userID}`);
             });
         }
     </script>
