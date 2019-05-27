@@ -27,6 +27,12 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-core'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.5.RELEASE'
+	compile group: 'org.springframework.security', name: 'spring-security-oauth2-client'
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	compile group: 'org.springframework.security', name: 'spring-security-crypto'
+
 }
 
 dependencyManagement {
