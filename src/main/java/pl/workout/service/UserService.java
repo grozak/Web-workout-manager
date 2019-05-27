@@ -1,8 +1,11 @@
 package pl.workout.service;
 
 import org.springframework.stereotype.Service;
+import pl.workout.exception.ResourceNotFoundException;
 import pl.workout.model.User;
 import pl.workout.repository.UserRepository;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -13,23 +16,20 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Iterable<User> getAllUsers(){
-        return userRepository.findAll();
+    public User getById(Long id) {
+        return userRepository.getById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
-    public User getUserById(Long userId){
-        return userRepository.findById(userId).get();
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
-    public synchronized User createUser(User user){
+    public User save(User user) {
         return userRepository.save(user);
     }
 
-    public synchronized User updateUser(User user){
-        return userRepository.save(user);
+    public Optional<User> getByEmail(String email) {
+        return userRepository.getByEmail(email);
     }
 
-    public void deleteUser(Long userId){
-        userRepository.delete(getUserById(userId));
-    }
 }

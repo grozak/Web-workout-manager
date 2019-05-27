@@ -11,19 +11,19 @@ import org.springframework.util.StringUtils;
 import pl.workout.exception.OAuth2AuthenticationProcessingException;
 import pl.workout.model.AuthProvider;
 import pl.workout.model.User;
-import pl.workout.repository.UserRepository;
 import pl.workout.security.user.OAuth2UserInfo;
 import pl.workout.security.user.OAuth2UserInfoFactory;
+import pl.workout.service.UserService;
 
 import java.util.Optional;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public CustomOAuth2UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public CustomOAuth2UserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider.");
         }
 
-        Optional<User> userOptional = userRepository.getByEmail(oAuth2UserInfo.getEmail());
+        Optional<User> userOptional = userService.getByEmail(oAuth2UserInfo.getEmail());
         User user;
         if(userOptional.isPresent()) {
             user = userOptional.get();
@@ -70,13 +70,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
 
-        return userRepository.save(user);
+        return userService.save(user);
     }
 
     private User updateExistingUser(User user, OAuth2UserInfo oAuth2UserInfo) {
         user.setName(oAuth2UserInfo.getName());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
 
-        return userRepository.save(user);
+        return userService.save(user);
     }
 }

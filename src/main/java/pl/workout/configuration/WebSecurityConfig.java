@@ -41,11 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         return new TokenAuthenticationFilter(tokenProvider, customUserDetailsService);
     }
 
-    @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository() {
-        return new HttpCookieOAuth2AuthorizationRequestRepository();
-    }
-
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
@@ -101,7 +96,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .oauth2Login()
                     .authorizationEndpoint()
                         .baseUri("/oauth2/authorize")
-                        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository())
+                        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
                         .and()
                     .redirectionEndpoint()
                         .baseUri("/oauth2/callback/*")
