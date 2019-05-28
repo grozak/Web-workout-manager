@@ -28,32 +28,31 @@ const request = (options) => {
         );
 };
 
-function signup(signUpRequest) {
+function login(loginRequest) {
     return request({
-        url: API_BASE_URL + "/auth/signup",
+        url: API_BASE_URL + "/auth/login",
         method: 'POST',
-        body: JSON.stringify(signUpRequest)
+        body: JSON.stringify(loginRequest)
     });
 }
 
-function register() {
-    const name = document.getElementById("name").value;
+function loginButton() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     const inputs = {
-        name: name,
         email: email,
         password: password
     };
 
-    const signUpRequest = Object.assign({}, inputs);
+    const loginRequest = Object.assign({}, inputs);
 
-    signup(signUpRequest)
+    login(loginRequest)
         .then(response => {
-            console.log("Registered successfully.");
+            localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+            console.log("Logged in successfully.");
             console.log(response);
-            window.location.href = "/login";
+            window.location.href = "/calendar";
         }).catch(error => {
             console.log("Please try again :(");
             console.log(error);

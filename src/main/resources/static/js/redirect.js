@@ -14,8 +14,7 @@ const error = getUrlParameter('error');
 
 if(token) {
     localStorage.setItem(ACCESS_TOKEN, token);
-    window.location.href = "/login";
+    window.location.href = "/calendar";
 } else {
-    console.log(error);
-    window.location.href = "/signup";
+    window.location.href = "/login";
 }

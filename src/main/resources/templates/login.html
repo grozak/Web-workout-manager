@@ -8,7 +8,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script src="js/APIUtils.js"></script>
+    <script src="/js/login.js"></script>
 </head>
 <body>
 <div>
@@ -22,14 +22,17 @@
     </nav>
     <div class="container text-center">
         <h2 class="font-weight-bold">Web Workout Manager</h2>
-        <p>Log in to access your profile and past achievements !</p>
+        <p> Log in to access your profile and past achievements !</p>
+        <a href="http://localhost:9380/oauth2/authorize/facebook?redirect_uri=http://localhost:9380/oauth2/redirect">
+            Log in with facebook
+        </a>
         <div>
             <div>
                 <label>
-                    <span>Username</span>
+                    <span>Email</span>
                 </label>
                 <div>
-                    <input type="text">
+                    <input id="email" type="text">
                 </div>
             </div>
             <div>
@@ -37,20 +40,16 @@
                     <span>Password</span>
                 </label>
                 <div>
-                    <input type="text">
+                    <input id="password" type="text">
                 </div>
             </div>
             <div class="my-2">
-                <button class="btn btn-secondary">Log in to your account</button>
-            </div>
-            <div class="my-2">
-                <div class="fb-login-button" data-size="medium" data-button-type="login_with"
-                     data-auto-logout-link="false" data-use-continue-as="true" data-onlogin="login()"></div>
+                <button class="btn btn-secondary" onclick="loginButton();">Log in to your account</button>
             </div>
         </div>
-        <p class="underline">
+        <p>
             Need an account?
-            <a>
+            <a href="/signup">
                 Create your Web Workout Manager account.
             </a>
         </p>

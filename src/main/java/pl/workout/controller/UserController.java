@@ -22,4 +22,10 @@ public class UserController {  //TODO leaving this as a example
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         return userService.getById(userPrincipal.getId());
     }
+
+    @GetMapping("/calendar")
+    @PreAuthorize("hasRole('USER')")
+    public String getCalendar() {
+        return "calendar";
+    }
 }
