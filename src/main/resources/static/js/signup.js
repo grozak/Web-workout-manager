@@ -1,7 +1,7 @@
 // if (authenticated ) then eedirect //TODO
 //
 
-import {signup} from "./APIUtils";
+import { signup } from "/js/APIUtils";
 
 function register() {
     const name = document.getElementById("name").value;
