@@ -7,21 +7,29 @@ import java.util.List;
 
 @Entity
 public class Exercise {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User user;
+
     @Column(updatable = false)
     @Temporal(TemporalType.DATE)
     private java.util.Date date = java.util.Calendar.getInstance().getTime();
+
     private String category;
+
     private String name;
+
     private Integer numberOfSeries;
+
     @ElementCollection
     private List<Integer> numberOfReiteration;
+
     @ElementCollection
     private List<Integer> weights;
 

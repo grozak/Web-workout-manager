@@ -1,4 +1,6 @@
-import { API_BASE_URL, ACCESS_TOKEN} from "./constants";
+// import { API_BASE_URL, ACCESS_TOKEN} from "./constants.js"; TODO not working for some reason
+const API_BASE_URL = 'http://localhost:9380/api';
+const ACCESS_TOKEN = 'accessToken';
 
 const request = (options) => {
     const headers = new Headers({

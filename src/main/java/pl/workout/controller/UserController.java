@@ -9,7 +9,7 @@ import pl.workout.service.UserService;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserController {  //TODO leaving this as a example
 
     private UserService userService;
 
