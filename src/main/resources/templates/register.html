@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Workout Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script src="/js/register.js"></script>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-light bg-light">
+        <span>
+                <a class="navbar-brand" href="/">Main page</a>
+        </span>
+        <span>
+                <a id="createAccount" class="badge badge-pill badge-secondary" href="/">Login to your account</a>
+        </span>
+    </nav>
+    <div class="container text-center">
+        <h2 class="font-weight-bold">Web Workout Manager</h2>
+        <p>Register to best fitness manager !</p>
+        <a href="http://localhost:9380/oauth2/authorize/facebook?redirect_uri=http://localhost:9380/oauth2/redirect">
+            Register with facebook
+        </a>
+        <div>
+            <div>
+                <label>
+                    <span>Name</span>
+                </label>
+                <div>
+                    <input type="text">
+                </div>
+            </div>
+            <div>
+                <label>
+                    <span>Email</span>
+                </label>
+                <div>
+                    <input type="text">
+                </div>
+            </div>
+            <div>
+                <label>
+                    <span>Password</span>
+                </label>
+                <div>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="my-2">
+                <button class="btn btn-secondary">Register</button>
+            </div>
+        </div>
+        <p>
+            Already have an account ?
+            <a href="/">
+                Login to your Web Workout Manager account.
+            </a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

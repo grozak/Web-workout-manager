@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LoginController {
 
     @RequestMapping("/")
-    public String getLoginPage(){
+    public String getLoginPage() {
         return "test";
+    }
+
+    @RequestMapping("/signup")
+    public String getRegisterPage() {
+        return "register";
     }
 
     @RequestMapping(value = "/dashboard/{id}", method = RequestMethod.GET)

@@ -2,9 +2,6 @@ package pl.workout.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
     private final Auth auth = new Auth();
@@ -32,14 +29,14 @@ public class AppProperties {
     }
 
     public static class OAuth2 {
-        private List<String> authorizedRedirectUrls = new ArrayList<>();
+        private String authorizedRedirectUrl;
 
-        public List<String> getAuthorizedRedirectUrls() {
-            return authorizedRedirectUrls;
+        public String getAuthorizedRedirectUrl() {
+            return authorizedRedirectUrl;
         }
 
-        public void setAuthorizedRedirectUrls(List<String> authorizedRedirectUrls) {
-            this.authorizedRedirectUrls = authorizedRedirectUrls;
+        public void setAuthorizedRedirectUrl(String authorizedRedirectUrl) {
+            this.authorizedRedirectUrl = authorizedRedirectUrl;
         }
     }
 

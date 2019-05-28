@@ -64,17 +64,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
         super.clearAuthenticationAttributes(request);
-        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequest(request, response);
+        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
     }
 
     private boolean isAuthorizedRedirectUri(String uri) {
         URI clientRedirectUri = URI.create(uri);
 
-        return appProperties.getOAuth2().getAuthorizedRedirectUrls()
-                .stream()
-                .anyMatch(authorizedRedirectUri -> {
-                    URI authorizedUri = URI.create(authorizedRedirectUri);
-                    return authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost()) && authorizedUri.getPort() == clientRedirectUri.getPort();
-                });
+        return appProperties.getOAuth2().getAuthorizedRedirectUrl().equalsIgnoreCase(clientRedirectUri.toString());
     }
 }
