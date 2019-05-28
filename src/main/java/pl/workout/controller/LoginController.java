@@ -10,7 +10,7 @@ public class LoginController {
 
     @RequestMapping("/")
     public String getLoginPage(){
-        return "login";
+        return "test";
     }
 
     @RequestMapping(value = "/dashboard/{id}", method = RequestMethod.GET)

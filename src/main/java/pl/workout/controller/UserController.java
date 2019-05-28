@@ -8,6 +8,7 @@ import pl.workout.security.UserPrincipal;
 import pl.workout.service.UserService;
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     private UserService userService;
