@@ -108,7 +108,6 @@ function showFormWithCategories(date) {
         '</select>' +
         '<label>Number of series: </label>' +
         '<input id="series" class="form-control" type="number" name="numberOfSeries" min="1" max="15" onchange="renderSeries()">' +
-        '<br>' +
         '<span id="series-body"></span>' +
         '<button id="exercise-button" class="btn btn-primary mb-2" type="button">Submit</button>' +
         '</form>'
@@ -158,45 +157,6 @@ function loadExercises() {
 
         document.getElementById("exercises").innerHTML = html;
     }
-}
-
-function renderForm2(date) {
-    let header = document.createElement('h2');
-    header.textContent = date;
-    let form = document.createElement('form')
-    form.setAttribute('method','post');
-    let p1 = document.createElement('p');
-    p1.textContent = 'Category: ';
-    let i1 = document.createElement('input');
-    i1.setAttribute('type', 'text');
-    i1.setAttribute('name', 'category');
-    let p2 = document.createElement('p');
-    p2.textContent = 'Exercise name: ';
-    let i2 = document.createElement('input');
-    i2.setAttribute('type', 'text');
-    i2.setAttribute('name', 'name');
-    let p3 = document.createElement('p');
-    p3.textContent = 'Number of series: ';
-    let i3 = document.createElement('input');
-    i3.setAttribute('type', 'number');
-    i3.setAttribute('name', 'numberOfSeries');
-    i3.setAttribute('min', '1');
-    i3.setAttribute('max', '10');
-    i3.setAttribute('onChange', 'renderSeriesInput()');
-    let button = document.createElement('input');
-    button.setAttribute('type', 'button');
-    button.setAttribute('value', 'Submit');
-    button.setAttribute('id', 'exercise-button');
-    form.appendChild(p1);
-    form.appendChild(i1);
-    form.appendChild(p2);
-    form.appendChild(i2);
-    form.appendChild(p3);
-    form.appendChild(i3);
-    form.appendChild(document.createElement('br'));
-    form.appendChild(button);
-    document.getElementById('panel').appendChild(header);
-    document.getElementById('panel').appendChild(form);
 }
 
 function renderSeries() {
