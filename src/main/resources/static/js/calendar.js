@@ -4,8 +4,13 @@ const ACCESS_TOKEN = 'accessToken';
 if(localStorage.getItem(ACCESS_TOKEN) === null) {
     window.location.href = '/login';
 }
-var categoriesList = [];
-// begin of calendar code
+
+//begin of calendar code
+
+var categoriesDict = {};
+var categoriesOptions='';
+var exercisesList = [];
+
 
 // TODO
 // Loading dates of workouts and display them on calendar. Display workouts from database
@@ -70,12 +75,17 @@ function updatePreview(number) {
 
 function renderForm(date) {
     //request categories from wger
-    if(!categoriesList.length) {
+    if(!Object.keys({}).length) {
         const request = new Request('https://wger.de/api/v2/exercisecategory/', {method: 'GET'});
         fetch(request)
             .then(response => response.json())
             .then(categories => {
                 showCategories(categories);
+                for(let i=0; i<categories.results.length; i++) {
+                    categoriesDict[categories.results[i].id] = categories.results[i].name;
+                    categoriesOptions+='<option name="category">'+ categories.results[i].name +'</option>\n'
+                }
+                showCategories();
             })
             .catch(error => {
                 console.error(error);
@@ -84,32 +94,60 @@ function renderForm(date) {
     else {
         showCategories();
     }
-    function showCategories(categories) {
-        let options = '';
-        for(let i=0; i<categories.results.length; i++) {
-            categoriesList[i] = categories.results[i].name
-            options+='<option>'+categoriesList[i]+'</option>\n'
-        }
-
-        let html =
-            '<h2>'+ date +'</h2>' +
-            '<form method="post">' +
-            '<label for="category">Category: </label>' +
-            '<select class="form-control form-control-sm">'+
-            options +
-            '</select>' +
-            '<label>Exercise name: </label>' +
-            '<input id="name" type="text" class="form-control" name="name">' +
-            '<label>Number of series: </label>' +
-            '<input id="series" class="form-control" type="number" name="numberOfSeries" min="1" max="15" onchange="renderSeries()">' +
-            '<br>' +
-            '<span id="series-body"></span>' +
-            '<button id="exercise-button" class="btn btn-primary mb-2" type="button">Submit</button>' +
-            '</form>'
-        document.getElementById('panel').innerHTML = html;
-    }
-
 }
+
+function showCategories() {
+    let html =
+        '<h2>'+ date +'</h2>' +
+        '<form method="post">' +
+        '<label for="category">Category: </label>' +
+        '<select class="form-control form-control-sm" id="categories" onchange="loadExercises()">'+
+        categoriesOptions +
+        '</select>' +
+        '<label>Exercise name: </label>' +
+        '<input id="name" type="text" class="form-control" name="name">' +
+        '<label>Number of series: </label>' +
+        '<input id="series" class="form-control" type="number" name="numberOfSeries" min="1" max="15" onchange="renderSeries()">' +
+        '<br>' +
+        '<span id="series-body"></span>' +
+        '<button id="exercise-button" class="btn btn-primary mb-2" type="button">Submit</button>' +
+        '</form>'
+    document.getElementById('panel').innerHTML = html;
+}
+
+function loadExercises() {
+    console.log('load exercise');
+    category = document.getElementById("categories").options[e.selectedIndex].value;
+    categoryId=0;
+    for(key in categoriesDict) {
+        if(categoriesDict[key] === category) {
+            categoryId = key;
+            break;
+        }
+    }
+    const firstRequest = new Request('https://wger.de/api/v2/exercise/?language=2&category='+categoryId, {method: 'GET'});
+    fetchExercises(firstRequest);
+
+    function fetchExercises(request) {
+        console.log('1');
+        fetch(request)
+            .then(response => response.json())
+            .then(exercises => {
+                for(element in exercises.results) {
+                    exercisesList.push(element);
+                }
+            })
+            .then(exercises => {
+                if(exercises.next) {
+                    fetchExercises(new Request(exercises.next, {method: 'GET'}));
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+}
+
 function renderForm2(date) {
     let header = document.createElement('h2');
     header.textContent = date;
