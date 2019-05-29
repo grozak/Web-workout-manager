@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class Training {
 
     @NotNull
     @Temporal(TemporalType.DATE)
-    private Date date = Calendar.getInstance().getTime();
+    private Date date;
 
     @OneToMany(mappedBy = "training", cascade = {CascadeType.ALL})
     @JsonManagedReference
@@ -33,8 +32,9 @@ public class Training {
 
     public Training(){}
 
-    public Training(@NotNull User user) {
+    public Training(@NotNull User user, @NotNull Date date) {
         this.user = user;
+        this.date = date;
     }
 
     public Long getId() {

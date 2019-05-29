@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.workout.model.Training;
 import pl.workout.payload.ApiResponse;
+import pl.workout.payload.TrainingCreateRequest;
 import pl.workout.payload.TrainingUpdateRequest;
 import pl.workout.security.CurrentUser;
 import pl.workout.security.UserPrincipal;
@@ -44,8 +45,8 @@ public class TrainingController {
 
     @PostMapping("/training")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createTraining(@CurrentUser UserPrincipal userPrincipal) {
-        Training training = trainingService.createTraining(userService.getById(userPrincipal.getId()));
+    public ResponseEntity<?> createTraining(@CurrentUser UserPrincipal userPrincipal, @Valid @RequestBody TrainingCreateRequest trainingCreateRequest) {
+        Training training = trainingService.createTraining(userService.getById(userPrincipal.getId()), trainingCreateRequest);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/training")

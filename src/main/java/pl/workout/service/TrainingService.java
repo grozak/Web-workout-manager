@@ -3,6 +3,7 @@ package pl.workout.service;
 import org.springframework.stereotype.Service;
 import pl.workout.model.Training;
 import pl.workout.model.User;
+import pl.workout.payload.TrainingCreateRequest;
 import pl.workout.payload.TrainingUpdateRequest;
 import pl.workout.repository.TrainingRepository;
 
@@ -25,8 +26,8 @@ public class TrainingService {
         return trainingRepository.getById(id);
     }
 
-    public Training createTraining(User user) {
-        return trainingRepository.save(new Training(user));
+    public Training createTraining(User user, TrainingCreateRequest trainingCreateRequest) {
+        return trainingRepository.save(new Training(user, trainingCreateRequest.getDate()));
     }
 
     public Training updateTraining(Long id, TrainingUpdateRequest trainingUpdateRequest) {
