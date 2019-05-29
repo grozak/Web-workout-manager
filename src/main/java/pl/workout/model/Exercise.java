@@ -3,6 +3,7 @@ package pl.workout.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,33 +11,35 @@ public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "training_id", referencedColumnName = "id")
     @JsonBackReference
-    private User user;
+    private Training training;
 
-    @Column(updatable = false)
-    @Temporal(TemporalType.DATE)
-    private java.util.Date date = java.util.Calendar.getInstance().getTime();
-
+    @NotNull
     private String category;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private Integer numberOfSeries;
 
+    @NotNull
     @ElementCollection
     private List<Integer> numberOfReiteration;
 
+    @NotNull
     @ElementCollection
     private List<Integer> weights;
 
     public Exercise(){}
 
-    public Exercise(User user, String category, String name, Integer numberOfSeries, List<Integer> numberOfReiteration, List<Integer> weights) {
-        this.user = user;java.util.Calendar.getInstance().getTime();
+    public Exercise(@NotNull Training training, @NotNull String category, @NotNull String name, @NotNull Integer numberOfSeries, @NotNull List<Integer> numberOfReiteration, @NotNull List<Integer> weights) {
+        this.training = training;
         this.category = category;
         this.name = name;
         this.numberOfSeries = numberOfSeries;
@@ -44,24 +47,20 @@ public class Exercise {
         this.weights = weights;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public java.util.Date getDate() {
-        return date;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     public String getCategory() {

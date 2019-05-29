@@ -13,23 +13,24 @@ import java.util.Set;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
+    @NotNull
     @Email
-    @Column(nullable = false)
     private String email;
 
-    @JsonIgnore
+    @NotNull
     private String password;
 
     private String imageUrl;
 
-    @Column(nullable = false)
+    @NotNull
     private Boolean emailVerified = false;
 
     @NotNull
@@ -43,26 +44,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     @JsonManagedReference
-    private List<Exercise> exerciseList = new ArrayList<>();
+    private List<Training> trainingList = new ArrayList<>();
 
-    public User(){
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public Boolean getEmailVerified() {
-        return emailVerified;
-    }
-
-    public void setEmailVerified(Boolean emailVerified) {
-        this.emailVerified = emailVerified;
-    }
+    public User(){}
 
     public Long getId() {
         return id;
@@ -96,6 +80,22 @@ public class User {
         this.password = password;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Boolean getEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(Boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
     public AuthProvider getProvider() {
         return provider;
     }
@@ -120,11 +120,11 @@ public class User {
         this.friendList = friendList;
     }
 
-    public List<Exercise> getExerciseList() {
-        return exerciseList;
+    public List<Training> getTrainingList() {
+        return trainingList;
     }
 
-    public void setExerciseList(List<Exercise> exerciseList) {
-        this.exerciseList = exerciseList;
+    public void setTrainingList(List<Training> trainingList) {
+        this.trainingList = trainingList;
     }
 }
