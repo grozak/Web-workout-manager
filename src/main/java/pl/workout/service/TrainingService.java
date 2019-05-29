@@ -7,6 +7,9 @@ import pl.workout.payload.TrainingCreateRequest;
 import pl.workout.payload.TrainingUpdateRequest;
 import pl.workout.repository.TrainingRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,7 +30,14 @@ public class TrainingService {
     }
 
     public Training createTraining(User user, TrainingCreateRequest trainingCreateRequest) {
-        return trainingRepository.save(new Training(user, trainingCreateRequest.getDate()));
+        System.out.println(trainingCreateRequest.getDate());
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd-mm-yyyy").parse(trainingCreateRequest.getDate());
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
+        return trainingRepository.save(new Training(user, date));
     }
 
     public Training updateTraining(Long id, TrainingUpdateRequest trainingUpdateRequest) {

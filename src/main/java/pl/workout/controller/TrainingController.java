@@ -46,6 +46,7 @@ public class TrainingController {
     @PostMapping("/training")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createTraining(@CurrentUser UserPrincipal userPrincipal, @Valid @RequestBody TrainingCreateRequest trainingCreateRequest) {
+        System.out.println("I'm here ");
         Training training = trainingService.createTraining(userService.getById(userPrincipal.getId()), trainingCreateRequest);
 
         URI location = ServletUriComponentsBuilder

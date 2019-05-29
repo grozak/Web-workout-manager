@@ -40,7 +40,7 @@ public class ExerciseController {
         return ResponseUtil.wrapOrNotFound(Optional.of(exerciseService.getById(id)));
     }
 
-    @PostMapping("/exercise")
+    @PostMapping("/exercise/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createExercise(@PathVariable("id") Long trainingId, @Valid @RequestBody ExerciseRequest exerciseRequest) {
         Exercise exercise = exerciseService.createExercise(trainingService.getById(trainingId), exerciseRequest);
