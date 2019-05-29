@@ -9,19 +9,31 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script src="/js/calendar.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+    <script src="/js/datepicker.min.js"></script>
+    <script src="/js/i18n/datepicker.en.js"></script>
+
 </head>
 <body>
 <div>
     <nav class="navbar navbar-light bg-light">
-            <span>
-                <a class="navbar-brand" href="/">Main page</a>
-            </span>
         <span>
-                <a class="badge badge-pill badge-secondary" href="/signup">Create an account - logout tu</a>
-            </span>
+            <a class="navbar-brand" href="/">Main page</a>
+        </span>
+        <span>
+            <a class="badge badge-pill badge-secondary" href="/signup">Create an account - logout tu</a>
+        </span>
     </nav>
     <div class="container text-center">
-        <h2 class="font-weight-bold">Calendar</h2>
+        <div class="row align-items-start">
+            <div class="col">
+                <div id="my-picker"></div>
+            </div>
+            <div id="panel" class="col form-group">
+
+            </div>
+        </div>
     </div>
 </div>
 </body>
