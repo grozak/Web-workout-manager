@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://remotemysql.com:3306/ttha0W3Svv?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris
-    username: ttha0W3Svv
-    password: Gjk3jhyuY3
+    url: jdbc:mysql://remotemysql.com:3306/z61PKOWfla?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris
+    username: z61PKOWfla
+    password: TJGofCh2Et
   jpa:
     show-sql: true
     hibernate:
