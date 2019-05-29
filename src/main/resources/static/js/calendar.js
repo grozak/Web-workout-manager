@@ -231,6 +231,7 @@ function renderSeries() {
             span1.appendChild(i1);
             span1.appendChild(l2);
             span1.appendChild(i2);
+            body.appendChild(document.createElement('br'));
             body.appendChild(p);
             body.appendChild(span1);
         }
