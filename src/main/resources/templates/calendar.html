@@ -8,12 +8,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script src="/js/calendar.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link href="/css/main.css" rel="stylesheet" type="text/css">
-    <script src="/js/datepicker.min.js"></script>
-    <script src="/js/i18n/datepicker.en.js"></script>
+    <!-- datepicker includes -->
+    <link href="/css/datepicker/datepicker.css" rel="stylesheet" type="text/css">
+    <script src="/js/datepicker/datepicker.min.js"></script>
+    <script src="/js/datepicker/i18n/datepicker.en.js"></script>
 
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div>
@@ -25,16 +26,22 @@
             <a class="badge badge-pill badge-secondary" onclick="logoutButton();">Logout</a>
         </span>
     </nav>
-    <div class="container text-center">
-        <div class="row align-items-start">
-            <div class="col">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" id="calendar-container">
                 <div id="my-picker"></div>
             </div>
-            <div id="panel" class="col form-group">
 
-            </div>
+        </div>
+        <div class="row">
+            <div id="panel" class="col-md-6"></div>
+            <div id="preview" class="col-md-6"></div>
         </div>
     </div>
+    <div class="page-footer">
+
+    </div>
 </div>
+<script src="/js/calendar.js"></script>
 </body>
 </html>
