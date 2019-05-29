@@ -32,4 +32,10 @@ public class UserService {
         return userRepository.getByEmail(email);
     }
 
+    public boolean isFriend(Long id, Long friendId) {
+        User user = getById(id);
+        User friend = getById(friendId);
+        return user.getFriendList().contains(friend);
+    }
+
 }

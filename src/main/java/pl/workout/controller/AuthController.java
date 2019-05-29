@@ -16,9 +16,7 @@ import pl.workout.payload.ApiResponse;
 import pl.workout.payload.AuthResponse;
 import pl.workout.payload.LoginRequest;
 import pl.workout.payload.SignUpRequest;
-import pl.workout.security.CurrentUser;
 import pl.workout.security.TokenProvider;
-import pl.workout.security.UserPrincipal;
 import pl.workout.service.UserService;
 
 import javax.validation.Valid;
@@ -86,6 +84,6 @@ public class AuthController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> logoutUser() {
         SecurityContextHolder.clearContext();
-        return ResponseEntity.ok(new ApiResponse(true, "User successfully logout."));
+        return ResponseEntity.ok(new ApiResponse(true, "User successfully log out."));
     }
 }
