@@ -30,7 +30,6 @@ public class TrainingService {
     }
 
     public Training createTraining(User user, TrainingCreateRequest trainingCreateRequest) {
-        System.out.println(trainingCreateRequest.getDate());
         Date date = null;
         try {
             date = new SimpleDateFormat("dd-mm-yyyy").parse(trainingCreateRequest.getDate());

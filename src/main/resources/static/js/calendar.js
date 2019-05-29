@@ -233,6 +233,7 @@ function renderSeries() {
 
 
 // TODO I have to check if every parameter is given and valid but this bullshit finally started working.
+// TODO I still don't know how to get response body from request :/
 function submit() {
     console.log('tak');
     let date = document.getElementById("date").textContent;
@@ -255,7 +256,9 @@ function submit() {
         date: date
     };
     const trainingCreateRequest = Object.assign({}, inputs);
-    createTraining(trainingCreateRequest);
-
-    return false;
+    createTraining(trainingCreateRequest)
+        .then(response => {
+            console.log('hi');
+            console.log(response);
+        });
 }
