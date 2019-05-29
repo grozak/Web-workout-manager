@@ -87,7 +87,7 @@ function renderForm(date) {
     function showCategories(categories) {
         let options = '';
         for(let i=0; i<categories.results.length; i++) {
-            categoriesList.push(categories.results[i].name);
+            categoriesList[i] = categories.results[i].name
             options+='<option>'+categoriesList[i]+'</option>\n'
         }
 

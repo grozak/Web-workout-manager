@@ -1,15 +1,13 @@
 package pl.workout.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.workout.exception.BadRequestException;
 import pl.workout.model.AuthProvider;
@@ -18,7 +16,9 @@ import pl.workout.payload.ApiResponse;
 import pl.workout.payload.AuthResponse;
 import pl.workout.payload.LoginRequest;
 import pl.workout.payload.SignUpRequest;
+import pl.workout.security.CurrentUser;
 import pl.workout.security.TokenProvider;
+import pl.workout.security.UserPrincipal;
 import pl.workout.service.UserService;
 
 import javax.validation.Valid;
@@ -80,5 +80,12 @@ public class AuthController {
 
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "User registered successfully."));
+    }
+
+    @GetMapping("/logout")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> logoutUser() {
+        SecurityContextHolder.clearContext();
+        return ResponseEntity.ok(new ApiResponse(true, "User successfully logout."));
     }
 }
