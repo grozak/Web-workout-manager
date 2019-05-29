@@ -20,4 +20,9 @@ public class HomePageController {
     public String getSignUpPage() {
         return "signup";
     }
+
+    @GetMapping("/calendar")
+    public String getCalendarPage() {
+        return "calendar";
+    }
 }

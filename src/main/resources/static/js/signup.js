@@ -1,9 +1,9 @@
 const API_BASE_URL = 'http://localhost:9380/api';
 const ACCESS_TOKEN = 'accessToken';
 
-// if(localStorage.getItem(ACCESS_TOKEN) !== null) {
-//     window.location.href = "/calendar";
-// }
+if(localStorage.getItem(ACCESS_TOKEN) !== null) {
+    window.location.href = "/calendar";
+}
 
 const request = (options) => {
     const headers = new Headers({
