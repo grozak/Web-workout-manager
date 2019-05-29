@@ -80,23 +80,22 @@ function renderForm(date) {
         fetch(request)
             .then(response => response.json())
             .then(categories => {
-                showCategories(categories);
                 for(let i=0; i<categories.results.length; i++) {
                     categoriesDict[categories.results[i].id] = categories.results[i].name;
                     categoriesOptions+='<option name="category">'+ categories.results[i].name +'</option>\n'
                 }
-                showCategories();
+                showFormWithCategories(date);
             })
             .catch(error => {
                 console.error(error);
             });
     }
     else {
-        showCategories();
+        showFormWithCategories(date);
     }
 }
 
-function showCategories() {
+function showFormWithCategories(date) {
     let html =
         '<h2>'+ date +'</h2>' +
         '<form method="post">' +
@@ -105,7 +104,8 @@ function showCategories() {
         categoriesOptions +
         '</select>' +
         '<label>Exercise name: </label>' +
-        '<input id="name" type="text" class="form-control" name="name">' +
+        '<select class="form-control form-control-sm" id="exercises">'+
+        '</select>' +
         '<label>Number of series: </label>' +
         '<input id="series" class="form-control" type="number" name="numberOfSeries" min="1" max="15" onchange="renderSeries()">' +
         '<br>' +
@@ -117,7 +117,7 @@ function showCategories() {
 
 function loadExercises() {
     console.log('load exercise');
-    category = document.getElementById("categories").options[e.selectedIndex].value;
+    category = document.getElementById("categories").options[document.getElementById("categories").selectedIndex].value;
     categoryId=0;
     for(key in categoriesDict) {
         if(categoriesDict[key] === category) {
@@ -126,25 +126,37 @@ function loadExercises() {
         }
     }
     const firstRequest = new Request('https://wger.de/api/v2/exercise/?language=2&category='+categoryId, {method: 'GET'});
+    exercisesList = [];
     fetchExercises(firstRequest);
 
     function fetchExercises(request) {
+        next = ''
         console.log('1');
         fetch(request)
             .then(response => response.json())
             .then(exercises => {
                 for(element in exercises.results) {
-                    exercisesList.push(element);
+                    exercisesList.push(exercises.results[element]);
                 }
-            })
-            .then(exercises => {
                 if(exercises.next) {
+                    console.log(exercises.next);
                     fetchExercises(new Request(exercises.next, {method: 'GET'}));
                 }
             })
+            .then(() => displayExercises())
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    function displayExercises() {
+        html = '';
+        for(let i=0; i<exercisesList.length; i++) {
+            html+= '<option name="exercise">'+ exercisesList[i].name +'</option>\n'
+        }
+
+
+        document.getElementById("exercises").innerHTML = html;
     }
 }
 
