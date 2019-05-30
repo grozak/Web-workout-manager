@@ -18,13 +18,12 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-        .then(response => {
-            console.log(response);
-            console.log(response.headers.get('Location'));
-            response.json().then(json => {
-                if(!response.ok) {
+        .then(resp => {
+            resp.json().then(json => {
+                if(!resp.ok) {
                     return Promise.reject(json);
                 }
+                response=json;
                 return json;
             })
         });
@@ -34,11 +33,22 @@ function createTraining(trainingCreateRequest) {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
-
     return request({
         url: API_BASE_URL + "/training",
         method: 'POST',
         body: JSON.stringify(trainingCreateRequest)
+    });
+}
+
+function createExercise(id , exerciseRequest) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/training/" + id + "/exercise",
+        method: 'POST',
+        body: JSON.stringify(exerciseRequest)
     });
 
 }
@@ -63,11 +73,41 @@ function logoutButton() {
     });
 }
 
+function getTrainingList() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/training/list",
+        method: 'GET'
+    });
+}
+
+function getExerciseList(id) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/training/" + id + "/exercise/list",
+        method: 'GET'
+    });
+}
+
 //begin of calendar code
 
 var categoriesDict = {};
 var categoriesOptions='';
 var exercisesList = [];
+var response;
+var trainingId = -1;
+var trainingList;
+
+document.addEventListener("DOMContentLoaded", function() {
+    getTrainingList().then(() => trainingList = response);
+});
+
 
 
 // TODO
@@ -89,7 +129,9 @@ $picker.datepicker({
         }
     },
     onSelect: function onSelect(fd, date) {
+        document.getElementById("preview").innerHTML='';
         // If date with event is selected, show it
+        trainingId = -1;
         if (date && eventDates.indexOf(date.getDate()) !== -1) {
             renderTrainingPreview(fd);
         }
@@ -254,33 +296,59 @@ function renderSeries() {
 }
 
 
-// TODO I have to check if every parameter is given and valid but this bullshit finally started working.
-// TODO I still don't know how to get response body from request :/
+
 function submit() {
     console.log('tak');
     let date = document.getElementById("date").textContent;
     let category = document.getElementById("categories").options[document.getElementById("categories").selectedIndex].value;
     let exercise = document.getElementById("exercises").options[document.getElementById("exercises").selectedIndex].value;
+    let numberOfSeries = parseInt(document.getElementById('series').value);
     let reps = [];
     let weights = []
     let numbers = document.getElementsByTagName('input');
     for(let i=1; i<numbers.length; i++) {
         if(i%2===0) {
-            weights.push(numbers[i].value);
+            weights.push(parseInt(numbers[i].value));
         }
         else {
-            reps.push(numbers[i].value);
+            reps.push(parseInt(numbers[i].value));
         }
     }
 
+    if(trainingId<0) {
+        const inputs = {
+            date: date
+        };
+        const trainingCreateRequest = Object.assign({}, inputs);
+        createTraining(trainingCreateRequest)
+            .then(() => {
+                trainingId = parseInt(response.headers.get('Location').split('training/')[1])
 
-    const inputs = {
-        date: date
-    };
-    const trainingCreateRequest = Object.assign({}, inputs);
-    createTraining(trainingCreateRequest)
-        .then(response => {
-            console.log('hi');
-            console.log(response);
-        });
+            })
+            .then(() => postExercise());
+
+        document.getElementById("preview").innerHTML = '<h4>Added exercises:</h4>' +
+            '<ul class="list-group" id="preview-list"></ul>';
+    }
+    else {
+        postExercise();
+    }
+
+    function postExercise() {
+        const inputs = {
+            category: category,
+            name: exercise,
+            numberOfSeries: numberOfSeries,
+            numberOfReiteration: reps,
+            weights: weights
+        };
+        console.log(inputs);
+        console.log(JSON.stringify(inputs));
+        const exerciseRequest = Object.assign({}, inputs);
+        createExercise(trainingId , exerciseRequest);
+
+        // Add exercise to preview and reset form
+        document.getElementById("preview-list").innerHTML+='<li class="list-group-item">'+exercise+'</li>';
+        showFormWithCategories(document.getElementById("date").textContent);
+    }
 }
