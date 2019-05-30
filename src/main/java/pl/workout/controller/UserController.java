@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.workout.model.User;
 import pl.workout.payload.ApiResponse;
+import pl.workout.payload.UserTrainingCount;
 import pl.workout.security.CurrentUser;
 import pl.workout.security.UserPrincipal;
 import pl.workout.service.UserService;
@@ -51,5 +52,11 @@ public class UserController {
     public ResponseEntity<?> deleteUserFromFriendList(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long friendId) {
         userService.deleteUserFromFriendList(userPrincipal.getId(), friendId);
         return ResponseEntity.ok(new ApiResponse(true, "Friend deleted."));
+    }
+
+    @GetMapping("/user/most-active")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<UserTrainingCount>> getMostActiveUsers(@RequestParam(value = "count") int count) {
+        return ResponseUtil.wrapOrNotFound(Optional.of(userService.getMostActiveUsers(count)));
     }
 }

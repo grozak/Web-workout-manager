@@ -3,8 +3,11 @@ package pl.workout.service;
 import org.springframework.stereotype.Service;
 import pl.workout.exception.ResourceNotFoundException;
 import pl.workout.model.User;
+import pl.workout.payload.UserTrainingCount;
+import pl.workout.repository.TrainingRepository;
 import pl.workout.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +15,11 @@ import java.util.Optional;
 public class UserService {
 
     private UserRepository userRepository;
+    private TrainingRepository trainingRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, TrainingRepository trainingRepository) {
         this.userRepository = userRepository;
+        this.trainingRepository = trainingRepository;
     }
 
     public User getById(Long id) {
@@ -54,5 +59,12 @@ public class UserService {
         friend.getFriendList().remove(user);
         userRepository.save(user);
         userRepository.save(friend);
+    }
+
+    public List<UserTrainingCount> getMostActiveUsers(int count) {
+        List<User> mostActiveUsers = trainingRepository.getMostActiveUsers(count);
+        List<UserTrainingCount> result = new ArrayList<>();
+        mostActiveUsers.forEach(user -> result.add(new UserTrainingCount(user, trainingRepository.countByUser(user))));
+        return result;
     }
 }
