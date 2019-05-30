@@ -19,6 +19,8 @@ const request = (options) => {
 
     return fetch(options.url, options)
         .then(response => {
+            console.log(response);
+            console.log(response.headers.get('Location'));
             response.json().then(json => {
                 if(!response.ok) {
                     return Promise.reject(json);
@@ -54,7 +56,7 @@ function logoutButton() {
             localStorage.removeItem(ACCESS_TOKEN);
             console.log("Logged out successfully.");
             console.log(response);
-            window.location.href = "/login"
+            // window.location.href = "/login"
         }).catch(error => {
         console.log("Please try again :(");
         console.log(error);

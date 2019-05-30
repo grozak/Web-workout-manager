@@ -41,7 +41,13 @@ public class TrainingService {
 
     public Training updateTraining(Long id, TrainingUpdateRequest trainingUpdateRequest) {
         Training training = getById(id);
-        training.setDate(trainingUpdateRequest.getDate());
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd-mm-yyyy").parse(trainingUpdateRequest.getDate());
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
+        training.setDate(date);
         training.setExerciseList(trainingUpdateRequest.getExerciseList());
         return trainingRepository.save(training);
     }

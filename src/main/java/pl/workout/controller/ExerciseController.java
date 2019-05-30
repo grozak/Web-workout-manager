@@ -46,8 +46,8 @@ public class ExerciseController {
         Exercise exercise = exerciseService.createExercise(trainingService.getById(trainingId), exerciseRequest);
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/training/" + trainingId + "/exercise")
-                .buildAndExpand(exercise.getId()).toUri();
+                .fromCurrentContextPath().path("/training/{id}/exercise/{eid}")
+                .buildAndExpand(trainingId, exercise.getId()).toUri();
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "Exercise created."));
     }

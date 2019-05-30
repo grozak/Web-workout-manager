@@ -49,8 +49,9 @@ public class TrainingController {
         Training training = trainingService.createTraining(userService.getById(userPrincipal.getId()), trainingCreateRequest);
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/training")
+                .fromCurrentContextPath().path("/training/{id}")
                 .buildAndExpand(training.getId()).toUri();
+
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "Training created."));
     }
