@@ -1,3 +1,7 @@
+.badge:hover{
+    cursor:pointer;
+}
+
 .navbar {
     margin-bottom: 1.5rem;
 }
