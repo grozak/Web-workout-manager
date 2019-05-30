@@ -24,6 +24,7 @@ const request = (options) => {
                 if(!resp.ok) {
                     return Promise.reject(json);
                 }
+                responseBody = json;
                 return json;
             })
         });
@@ -101,17 +102,19 @@ var categoriesDict = {};
 var categoriesOptions='';
 var exercisesList = [];
 var response;
+var responseBody;
 var trainingId = -1;
 var trainingList;
 
 document.addEventListener("DOMContentLoaded", function() {
-    getTrainingList().then(() => trainingList = response);
+    getTrainingList()
+        .then(() => trainingList = responseBody)
+        .then(() => loadCalendar());
 });
 
 
-
-// TODO
-// Loading dates of workouts and display them on calendar. Display workouts from database
+// TODO Loading dates of workouts and display them on calendar. Display workouts from database
+// TODO trainingList is already prepared and waits to be implemented
 var eventDates = [1, 10, 12, 22],
     $picker = $("#my-picker"),
     $content = $('#panel'),
