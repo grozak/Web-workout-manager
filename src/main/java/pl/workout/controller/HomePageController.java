@@ -25,4 +25,9 @@ public class HomePageController {
     public String getCalendarPage() {
         return "calendar";
     }
+
+    @GetMapping("/user")
+    public String getUserPage() {
+        return "user";
+    }
 }

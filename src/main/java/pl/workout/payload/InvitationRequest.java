@@ -1,10 +1,10 @@
 package pl.workout.payload;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class InvitationRequest {
 
-    @NotEmpty
+    @NotNull
     private boolean isAccepted;
 
     public boolean isAccepted() {
