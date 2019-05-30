@@ -1,6 +1,7 @@
 package pl.workout.payload;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 public class ExerciseRequest {
@@ -11,7 +12,7 @@ public class ExerciseRequest {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotEmpty
     private Integer numberOfSeries;
 
     @NotBlank

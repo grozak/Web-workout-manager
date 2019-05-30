@@ -5,9 +5,8 @@
     <title>Web Workout Manager</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-social.css" rel="stylesheet" type="text/css">
     <script src="/js/login.js"></script>
 </head>
 <body>
@@ -17,17 +16,17 @@
                 <a class="navbar-brand" href="/">Main page</a>
             </span>
         <span>
-                <a class="badge badge-pill badge-secondary" href="/signup">Create an account</a>
+                <a class="btn btn-outline-secondary" href="/signup">Create an account</a>
             </span>
     </nav>
     <div class="container text-center">
         <h2 class="font-weight-bold">Web Workout Manager</h2>
-        <p> Log in to access your profile and past achievements !</p>
-        <a href="http://localhost:9380/oauth2/authorize/facebook?redirect_uri=http://localhost:9380/oauth2/redirect">
-            Log in with facebook
+        <p>Log in to access your profile and past achievements !</p>
+        <a class="btn btn-social btn-facebook" href="http://localhost:9380/oauth2/authorize/facebook?redirect_uri=http://localhost:9380/oauth2/redirect">
+            <span class="fa fa-facebook-f"></span> Log in with Facebook
         </a>
         <div>
-            <div>
+            <div class="mt-2">
                 <label>
                     <span>Email</span>
                 </label>
@@ -35,22 +34,22 @@
                     <input id="email" type="text">
                 </div>
             </div>
-            <div>
+            <div class="mt-2">
                 <label>
                     <span>Password</span>
                 </label>
                 <div>
-                    <input id="password" type="text">
+                    <input id="password" type="password">
                 </div>
             </div>
-            <div class="my-2">
-                <button class="btn btn-secondary" onclick="loginButton();">Log in to your account</button>
+            <div class="m-2">
+                <button class="btn btn-secondary m-1" onclick="loginButton();">Log in</button>
             </div>
         </div>
-        <p>
+        <p class="mt-2">
             Need an account?
-            <a href="/signup">
-                Create your Web Workout Manager account.
+            <a class="btn btn-outline-secondary" href="/signup">
+                Create your account
             </a>
         </p>
     </div>
