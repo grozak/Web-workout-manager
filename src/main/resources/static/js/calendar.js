@@ -41,6 +41,26 @@ function createTraining(trainingCreateRequest) {
 
 }
 
+function logout() {
+    return request({
+        url: API_BASE_URL + "/auth/logout",
+        method: 'GET'
+    });
+}
+
+function logoutButton() {
+    logout()
+        .then(response => {
+            localStorage.removeItem(ACCESS_TOKEN);
+            console.log("Logged out successfully.");
+            console.log(response);
+            window.location.href = "/login"
+        }).catch(error => {
+        console.log("Please try again :(");
+        console.log(error);
+    });
+}
+
 //begin of calendar code
 
 var categoriesDict = {};
