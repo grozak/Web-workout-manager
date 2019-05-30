@@ -96,7 +96,7 @@ export function getTraining(id) {
     });
 }
 
-export function createTraining() {
+export function createTraining(trainingCreateRequest) {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }

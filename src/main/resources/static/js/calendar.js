@@ -18,15 +18,28 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-        .then(response =>
+        .then(response => {
             response.json().then(json => {
                 if(!response.ok) {
                     return Promise.reject(json);
                 }
                 return json;
             })
-        );
+        });
 };
+
+function createTraining(trainingCreateRequest) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/training",
+        method: 'POST',
+        body: JSON.stringify(trainingCreateRequest)
+    });
+
+}
 
 function logout() {
     return request({
@@ -47,6 +60,7 @@ function logoutButton() {
         console.log(error);
     });
 }
+
 //begin of calendar code
 
 var categoriesDict = {};
@@ -85,7 +99,7 @@ $picker.datepicker({
 
 function renderTrainingPreview(date) {
     html =
-        '<h2>'+ date +'</h2>\n' +
+        '<h2 id="date">'+ date +'</h2>\n' +
         '<h4>Your training: </h4>\n' +
         '<div class="row">\n' +
         '  <div>\n' +
@@ -139,8 +153,8 @@ function renderForm(date) {
 
 function showFormWithCategories(date) {
     let html =
-        '<h2>'+ date +'</h2>' +
-        '<form method="post">' +
+        '<h2 id="date">'+ date +'</h2>' +
+        '<form autocomplete="off" action="">' +
         '<label for="category">Category: </label>' +
         '<select class="form-control form-control-sm" id="categories" onchange="loadExercises()">'+
         categoriesOptions +
@@ -151,13 +165,12 @@ function showFormWithCategories(date) {
         '<label>Number of series: </label>' +
         '<input id="series" class="form-control" type="number" name="numberOfSeries" min="1" max="15" onchange="renderSeries()">' +
         '<span id="series-body"></span>' +
-        '<button id="exercise-button" class="btn btn-primary mb-2" type="button">Submit</button>' +
-        '</form>'
+        '</form>' +
+        '<button id="exercise-button" class="btn btn-primary mb-2" type="button" onclick="submit()">Submit</button>'
     document.getElementById('panel').innerHTML = html;
 }
 
 function loadExercises() {
-    console.log('load exercise');
     category = document.getElementById("categories").options[document.getElementById("categories").selectedIndex].value;
     categoryId=0;
     for(key in categoriesDict) {
@@ -172,7 +185,6 @@ function loadExercises() {
 
     function fetchExercises(request) {
         next = ''
-        console.log('1');
         fetch(request)
             .then(response => response.json())
             .then(exercises => {
@@ -180,7 +192,6 @@ function loadExercises() {
                     exercisesList.push(exercises.results[element]);
                 }
                 if(exercises.next) {
-                    console.log(exercises.next);
                     fetchExercises(new Request(exercises.next, {method: 'GET'}));
                 }
             })
@@ -238,4 +249,36 @@ function renderSeries() {
             body.appendChild(span1);
         }
     }
+}
+
+
+// TODO I have to check if every parameter is given and valid but this bullshit finally started working.
+// TODO I still don't know how to get response body from request :/
+function submit() {
+    console.log('tak');
+    let date = document.getElementById("date").textContent;
+    let category = document.getElementById("categories").options[document.getElementById("categories").selectedIndex].value;
+    let exercise = document.getElementById("exercises").options[document.getElementById("exercises").selectedIndex].value;
+    let reps = [];
+    let weights = []
+    let numbers = document.getElementsByTagName('input');
+    for(let i=1; i<numbers.length; i++) {
+        if(i%2===0) {
+            weights.push(numbers[i].value);
+        }
+        else {
+            reps.push(numbers[i].value);
+        }
+    }
+
+
+    const inputs = {
+        date: date
+    };
+    const trainingCreateRequest = Object.assign({}, inputs);
+    createTraining(trainingCreateRequest)
+        .then(response => {
+            console.log('hi');
+            console.log(response);
+        });
 }
