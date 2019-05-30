@@ -56,7 +56,7 @@ function logoutButton() {
             localStorage.removeItem(ACCESS_TOKEN);
             console.log("Logged out successfully.");
             console.log(response);
-            // window.location.href = "/login"
+            window.location.href = "/login"
         }).catch(error => {
         console.log("Please try again :(");
         console.log(error);
