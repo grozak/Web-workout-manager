@@ -19,11 +19,11 @@ const request = (options) => {
 
     return fetch(options.url, options)
         .then(resp => {
+            response = resp;
             resp.json().then(json => {
                 if(!resp.ok) {
                     return Promise.reject(json);
                 }
-                response=json;
                 return json;
             })
         });

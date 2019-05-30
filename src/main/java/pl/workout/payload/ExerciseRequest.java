@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ExerciseRequest {
     @NotBlank
     private String name;
 
-    @NotEmpty
+    @NotNull
     private Integer numberOfSeries;
 
     @Size(max = 15, min = 1, message = "invalid numberOfReiteration")
