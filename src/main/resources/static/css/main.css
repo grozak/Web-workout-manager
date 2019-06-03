@@ -22,6 +22,7 @@
     min-height: 5rem;
 }
 
+
 #panel span > label{
     font-size: 0.8rem;
     margin: 0 0.5rem;
@@ -30,3 +31,12 @@
 #panel button {
     margin-top: 0.5rem;
 }
+
+.table thead th {
+    border-top: none;
+}
+
+.card-subtitle {
+    color: #495057;
+}
+
