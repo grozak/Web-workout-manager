@@ -121,34 +121,53 @@ function getMostActiveUsers(count) {
 
 function renderFriendList() {
     // console.log(friendList);
+    let friendContainer = document.getElementById("friend-container");
+    if(friendList.length === 0){
+        let noFriends = document.createElement('p');
+        noFriends.innerText = "Your friend list is empty :(";
+        friendContainer.appendChild(noFriends);
+    }
 }
 
 function renderNotFriendList() {
-    // console.log(notFriendList);
-    // let friendContainer = document.getElementById("not-friend-container");
-    // let selectPicker = document.createElement('select');
-    // selectPicker.setAttribute('class', 'selectpicker');
-    // for (let i=0; i<notFriendList.length; i++) {
-    //     console.log(notFriendList[i].name)
-    // }
-    // friendContainer.appendChild(selectPicker);
-
-
+    console.log(notFriendList);
+    let notFriendContainer = document.getElementById("not-friend-container");
+    if(notFriendList.length === 0){
+        let allFriends = document.createElement('p');
+        allFriends.setAttribute('class', 'mx-auto');
+        allFriends.innerText = "You are a friend of everyone !";
+        notFriendContainer.appendChild(allFriends)
+    } else {
+        let notFriendUl = document.createElement('ul');
+        notFriendUl.setAttribute('class', 'list-group mx-auto mb-3');
+        for(let i=0; i<notFriendList.length; i++) {
+            let notFriendLi = document.createElement('li');
+            notFriendLi.setAttribute('class', 'list-group-item');
+            notFriendLi.setAttribute('style', 'border: 1px solid #007bff!important;');
+            notFriendLi.innerText = notFriendList[i].name;
+            let plusImage = document.createElement('img');
+            plusImage.setAttribute('class', 'ml-2 float-right');
+            plusImage.setAttribute('src', '/images/plus.png');
+            notFriendLi.appendChild(plusImage);
+            notFriendUl.appendChild(notFriendLi);
+        }
+        notFriendContainer.appendChild(notFriendUl);
+    }
 }
 
 function renderPendingInvitations() {
-    console.log(pendingInvitations);
+    // console.log(pendingInvitations);
     let invitationContainer = document.getElementById("invitation-container");
     if(pendingInvitations.length === 0){
         let noInvitation = document.createElement('p');
-        noInvitation.setAttribute('class', '')
+        noInvitation.setAttribute('class', 'mx-auto');
         noInvitation.innerText = "You have no pending invitations :(";
         invitationContainer.appendChild(noInvitation);
     }
 }
 
 function renderMostActiveUsers() {
-    console.log(mostActiveUsers);
+    // console.log(mostActiveUsers);
     let mostActiveUsersContainer = document.getElementById("active-users-container");
     for (let i=0; i<mostActiveUsers.length; i++) {
         let userCol = document.createElement('div');

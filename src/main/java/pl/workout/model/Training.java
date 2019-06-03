@@ -26,7 +26,7 @@ public class Training {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @OneToMany(mappedBy = "training", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "training", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Exercise> exerciseList = new ArrayList<>();
 
