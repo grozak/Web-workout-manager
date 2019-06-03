@@ -32,7 +32,8 @@ public class TrainingService {
     public Training createTraining(User user, TrainingCreateRequest trainingCreateRequest) {
         Date date = null;
         try {
-            date = new SimpleDateFormat("dd-mm-yyyy").parse(trainingCreateRequest.getDate());
+
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(trainingCreateRequest.getDate());
         } catch(ParseException e) {
             e.printStackTrace();
         }
@@ -43,7 +44,7 @@ public class TrainingService {
         Training training = getById(id);
         Date date = null;
         try {
-            date = new SimpleDateFormat("dd-mm-yyyy").parse(trainingUpdateRequest.getDate());
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(trainingUpdateRequest.getDate());
         } catch(ParseException e) {
             e.printStackTrace();
         }

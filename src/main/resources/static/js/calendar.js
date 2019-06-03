@@ -11,7 +11,7 @@ const request = (options) => {
     });
 
     if(localStorage.getItem(ACCESS_TOKEN)) {
-        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN));
     }
 
     const defaults = {headers: headers};
@@ -28,6 +28,21 @@ const request = (options) => {
                 return json;
             })
         });
+};
+
+const request2 = (options) => {
+    const headers = new Headers({
+        'Content-Type': 'application/json',
+    });
+
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
+
+    const defaults = {headers: headers};
+    options = Object.assign({}, defaults, options);
+
+    return fetch(options.url, options)
 };
 
 function createTraining(trainingCreateRequest) {
@@ -75,14 +90,22 @@ function logoutButton() {
 }
 
 function getTrainingList() {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        request2({
+            url: API_BASE_URL + "/training/list",
+            method: 'GET'
+        }).then(response => {
+            response.json().then(json => {
+                if(response.ok) {
+                    trainingList = json;
+                    loadCalendar();
+                }
+            })
+        })
+            .catch(error => {
+            console.log(error);
+        });
     }
-
-    return request({
-        url: API_BASE_URL + "/training/list",
-        method: 'GET'
-    });
 }
 
 function getExerciseList(id) {
@@ -107,54 +130,92 @@ var trainingId = -1;
 var trainingList;
 
 document.addEventListener("DOMContentLoaded", function() {
-    getTrainingList()
-        .then(() => trainingList = responseBody)
-        .then(() => loadCalendar());
+    getTrainingList();
 });
 
 
 // TODO Loading dates of workouts and display them on calendar. Display workouts from database
 // TODO trainingList is already prepared and waits to be implemented
-var eventDates = [1, 10, 12, 22],
-    $picker = $("#my-picker"),
-    $content = $('#panel'),
-    sentences = ['qwerwqerqwer', 'asdasdasdasd', 'asdasdasdasdas'];
-$picker.datepicker({
-    language: 'en',
-    dateFormat: 'dd-mm-yyyy',
-    onRenderCell: function (date, cellType) {
-        var currentDate = date.getDate();
-        // Add extra element, if `eventDates` contains `currentDate`
-        if (cellType === 'day' && eventDates.indexOf(currentDate) !== -1) {
-            return {
-                html: currentDate + '<span class="dp-note"></span>'
+
+function loadCalendar() {
+    var $picker = $("#my-picker"),
+        $content = $('#panel'),
+        sentences = ['qwerwqerqwer', 'asdasdasdasd', 'asdasdasdasdas'];
+    $picker.datepicker({
+        language: 'en',
+        dateFormat: 'dd-mm-yyyy',
+        onRenderCell: function (date, cellType) {
+            var day = date.getDate();
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            if(cellType === 'day'){
+                for(k in trainingList) {
+                    v = trainingList[k];
+                    date = v.date;
+                    parts = date.split('-');
+                    if(day===parseInt(parts[2]) && month===parseInt(parts[1])-1 && year===parseInt(parts[0])) {
+                        return {
+                            html: day + '<span class="dp-note"></span>'
+                        }
+                    }
+                }
             }
-        }
-    },
-    onSelect: function onSelect(fd, date) {
-        document.getElementById("preview").innerHTML='';
-        // If date with event is selected, show it
-        trainingId = -1;
-        if (date && eventDates.indexOf(date.getDate()) !== -1) {
-            renderTrainingPreview(fd);
-        }
-        else {
+
+        },
+        onSelect: function onSelect(fd, date) {
+            document.getElementById("preview").innerHTML='';
+            // If date with event is selected, show it
+            trainingId = -1;
+            var day = date.getDate();
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            for(k in trainingList) {
+                v = trainingList[k];
+                date = v.date;
+                parts = date.split('-');
+                if(day===parseInt(parts[2]) && month===parseInt(parts[1])-1 && year===parseInt(parts[0])) {
+                    renderTrainingPreview(fd);
+                    return;
+                }
+            }
             renderForm(fd);
         }
-    }
-})
+    });
+}
+
 
 function renderTrainingPreview(date) {
+    parts = date.split('-');
+    day = parts[0];
+    month = parts[1];
+    year = parts[2];
+    list = '';
+    exercises = [];
+    for(k in trainingList) {
+        v = trainingList[k];
+        parts = v.date.split('-');
+        trainingDay = parts[2];
+        trainingMonth = parts[1];
+        trainingYear = parts[0];
+        if(day === trainingDay && month === trainingMonth && year === trainingYear) {
+            exercises = v.exerciseList;
+        }
+        console.log(exercises);
+    }
+
+    list = '';
+    for(let i=0;i<exercises.length; i++) {
+        v = exercises[i];
+        list += '<a class="list-group-item list-group-item-action" id="list-exercise-'+i+'" data-toggle="list" href="javascript:void(0)" onclick="updatePreview('+i+')">'+v.name+'</a>';
+    }
+
     html =
         '<h2 id="date">'+ date +'</h2>\n' +
         '<h4>Your training: </h4>\n' +
         '<div class="row">\n' +
         '  <div>\n' +
         '    <div class="list-group" id="list-tab" role="tablist">' +
-        '      <a class="list-group-item list-group-item-action" id="list-exercise-1" data-toggle="list" href="javascript:void(0)" onclick="updatePreview(1)">Exercise1asdasdasxdxddxdxdxdxdasdasdasddas</a>\n' +
-        '      <a class="list-group-item list-group-item-action" id="list-exercise-2" data-toggle="list" href="javascript:void(0)" onclick="updatePreview(2)">Exercise2</a>\n' +
-        '      <a class="list-group-item list-group-item-action" id="list-exercise-3" data-toggle="list" href="javascript:void(0)" onclick="updatePreview(3)">Exercise3</a>\n' +
-        '      <a class="list-group-item list-group-item-action" id="list-exercise-4" data-toggle="list" href=javascript:void(0)" onclick="updatePreview(4)">Exercise4</a>' +
+              list +
         '    </div>\n' +
         '  </div>\n' +
         '</div>';
@@ -298,16 +359,15 @@ function renderSeries() {
     }
 }
 
-
-
 function submit() {
     console.log('tak');
     let date = document.getElementById("date").textContent;
+    console.log(date);
     let category = document.getElementById("categories").options[document.getElementById("categories").selectedIndex].value;
     let exercise = document.getElementById("exercises").options[document.getElementById("exercises").selectedIndex].value;
     let numberOfSeries = parseInt(document.getElementById('series').value);
     let reps = [];
-    let weights = []
+    let weights = [];
     let numbers = document.getElementsByTagName('input');
     for(let i=1; i<numbers.length; i++) {
         if(i%2===0) {
@@ -319,6 +379,7 @@ function submit() {
     }
 
     if(trainingId<0) {
+        console.log(date);
         const inputs = {
             date: date
         };
