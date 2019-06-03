@@ -120,28 +120,46 @@ function getMostActiveUsers(count) {
 }
 
 function renderFriendList() {
-    console.log(friendList);
+    // console.log(friendList);
 }
 
 function renderNotFriendList() {
-    console.log(notFriendList);
-    let friendContainer = document.getElementById("not-friend-container");
-    let selectPicker = document.createElement('select');
-    selectPicker.setAttribute('class', 'selectpicker');
-    for (let i=0; i<notFriendList.length; i++) {
-        console.log(notFriendList[i].name)
-    }
-    friendContainer.appendChild(selectPicker);
+    // console.log(notFriendList);
+    // let friendContainer = document.getElementById("not-friend-container");
+    // let selectPicker = document.createElement('select');
+    // selectPicker.setAttribute('class', 'selectpicker');
+    // for (let i=0; i<notFriendList.length; i++) {
+    //     console.log(notFriendList[i].name)
+    // }
+    // friendContainer.appendChild(selectPicker);
 
 
 }
 
 function renderPendingInvitations() {
     console.log(pendingInvitations);
+    let invitationContainer = document.getElementById("invitation-container");
+    if(pendingInvitations.length === 0){
+        let noInvitation = document.createElement('p');
+        noInvitation.setAttribute('class', '')
+        noInvitation.innerText = "You have no pending invitations :(";
+        invitationContainer.appendChild(noInvitation);
+    }
 }
 
 function renderMostActiveUsers() {
     console.log(mostActiveUsers);
+    let mostActiveUsersContainer = document.getElementById("active-users-container");
+    for (let i=0; i<mostActiveUsers.length; i++) {
+        let userCol = document.createElement('div');
+        userCol.setAttribute('class', 'col-sm text-center border border-primary rounded mx-2 pt-3');
+        userCol.setAttribute('id', mostActiveUsers[i].user.email);
+        userCol.innerHTML = "<h4>" + mostActiveUsers[i].user.name + "</h4><p>Training count: " + mostActiveUsers[i].trainingCount + "</p>";
+        mostActiveUsersContainer.appendChild(userCol);
+    }
+
+
+
 }
 
 document.addEventListener("DOMContentLoaded", function() {

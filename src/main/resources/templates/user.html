@@ -30,10 +30,11 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-8" id="friend-container">friendy</div>
-            <div class="col-3 offset-1">
-                <div class="col">zapro</div>
-                <div class="col" id="not-friend-container">
+            <div class="col-8 text-center" id="friend-container">friendy</div>
+            <div class="col-4 text-center">
+                <h3 class="text-center p-2">Pending Invitations</h3>
+                <div class="row text-center" id="invitation-container"></div>
+                <div class="row" id="not-friend-container">
                     not friendy
                     <select class="selectpicker">
                         <option>Mustard</option>
@@ -44,9 +45,8 @@
                 </div>
             </div>
         </div>
-        <div class="row align-items-center">
-            <div class="col">msot active</div>
-        </div>
+        <h2 class="text-center p-2">Most Active Users</h2>
+        <div class="row align-items-center" id="active-users-container"></div>
     </div>
     <div class="page-footer">
 

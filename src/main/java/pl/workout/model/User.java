@@ -40,7 +40,7 @@ public class User {
     @OneToMany
     private Set<User> friendList = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Training> trainingList = new ArrayList<>();
 
