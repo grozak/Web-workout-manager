@@ -3,7 +3,7 @@ package pl.workout.payload;
 import pl.workout.model.Exercise;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class TrainingUpdateRequest {
@@ -11,7 +11,7 @@ public class TrainingUpdateRequest {
     @NotBlank
     private String date;
 
-    @NotEmpty
+    @NotNull
     private List<Exercise> exerciseList;
 
     public String getDate() {

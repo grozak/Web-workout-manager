@@ -14,7 +14,7 @@ public class Exercise {
     private Long id;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "training_id", referencedColumnName = "id")
     @JsonBackReference
     private Training training;
