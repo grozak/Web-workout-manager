@@ -120,18 +120,64 @@ function getMostActiveUsers(count) {
 }
 
 function renderFriendList() {
-    // console.log(friendList);
     let friendContainer = document.getElementById("friend-container");
+    while(friendContainer.firstChild) {
+        friendContainer.removeChild(friendContainer.firstChild);
+    }
     if(friendList.length === 0){
         let noFriends = document.createElement('p');
         noFriends.innerText = "Your friend list is empty :(";
         friendContainer.appendChild(noFriends);
+    } else {
+        let friendUl = document.createElement('ul');
+        friendUl.setAttribute('class', 'list-group mx-auto mb-3');
+        for (let i=0; i<friendList.length; i++) {
+            let friendLi = document.createElement('li');
+            friendLi.setAttribute('class', 'list-group-item');
+            friendLi.innerText = friendList[i].name + ' - ' + friendList[i].email;
+            let eyeImage = document.createElement('img');
+            eyeImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            eyeImage.setAttribute('src', '/images/eye.png');
+            eyeImage.setAttribute('onclick', 'goToFriend(' + friendList[i].id + ');');
+            let deleteImage = document.createElement('img');
+            deleteImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            deleteImage.setAttribute('src', '/images/delete.png');
+            deleteImage.setAttribute('onclick', 'deleteFriend(' + friendList[i].id + ');');
+            friendLi.appendChild(deleteImage);
+            friendLi.appendChild(eyeImage);
+            friendUl.appendChild(friendLi);
+        }
+        friendContainer.appendChild(friendUl);
     }
 }
 
+function goToFriend(id) {
+    console.log(id);
+    console.log("tutaj gościu")
+}
+
+function deleteFriend(id) {
+    request({
+        url: API_BASE_URL + '/user/' + id,
+        method: 'DELETE'
+    }).then(response => {
+        response.json().then(json => {
+            if(response.ok) {
+                friendList = friendList.filter(item => item.id !== id);
+                renderFriendList();
+                getUserNotFriends();
+            }
+        })
+    }).catch(error => {
+        console.log(error);
+    })
+}
+
 function renderNotFriendList() {
-    console.log(notFriendList);
     let notFriendContainer = document.getElementById("not-friend-container");
+    while(notFriendContainer.firstChild) {
+        notFriendContainer.removeChild(notFriendContainer.firstChild);
+    }
     if(notFriendList.length === 0){
         let allFriends = document.createElement('p');
         allFriends.setAttribute('class', 'mx-auto');
@@ -143,11 +189,11 @@ function renderNotFriendList() {
         for(let i=0; i<notFriendList.length; i++) {
             let notFriendLi = document.createElement('li');
             notFriendLi.setAttribute('class', 'list-group-item');
-            notFriendLi.setAttribute('style', 'border: 1px solid #007bff!important;');
             notFriendLi.innerText = notFriendList[i].name;
             let plusImage = document.createElement('img');
-            plusImage.setAttribute('class', 'ml-2 float-right');
+            plusImage.setAttribute('class', 'ml-2 float-right border border-secondary');
             plusImage.setAttribute('src', '/images/plus.png');
+            plusImage.setAttribute('onclick', 'sendInvitation(' + notFriendList[i].id + ');');
             notFriendLi.appendChild(plusImage);
             notFriendUl.appendChild(notFriendLi);
         }
@@ -155,19 +201,82 @@ function renderNotFriendList() {
     }
 }
 
+function sendInvitation(id) {
+    request({
+        url: API_BASE_URL + '/invitation/' + id,
+        method: 'POST'
+    }).then(response => {
+        response.json().then(json => {
+            if(response.ok) {
+                notFriendList = notFriendList.filter(item => item.id !== id);
+                renderNotFriendList();
+            }
+        })
+    }).catch(error => {
+        console.log(error);
+    })
+}
+
 function renderPendingInvitations() {
-    // console.log(pendingInvitations);
     let invitationContainer = document.getElementById("invitation-container");
+    while(invitationContainer.firstChild) {
+        invitationContainer.removeChild(invitationContainer.firstChild);
+    }
     if(pendingInvitations.length === 0){
         let noInvitation = document.createElement('p');
         noInvitation.setAttribute('class', 'mx-auto');
         noInvitation.innerText = "You have no pending invitations :(";
         invitationContainer.appendChild(noInvitation);
+    } else {
+        let invitationsUl = document.createElement('ul');
+        invitationsUl.setAttribute('class', 'list-group mx-auto mb-3');
+        for (let i=0; i<pendingInvitations.length; i++) {
+            let invitationsLi = document.createElement('li');
+            invitationsLi.setAttribute('class', 'list-group-item');
+            invitationsLi.innerText = pendingInvitations[i].user1.name;
+            let plusImage = document.createElement('img');
+            plusImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            plusImage.setAttribute('src', '/images/plus.png');
+            plusImage.setAttribute('onclick', 'answerToInvitation(' + pendingInvitations[i].id + ', ' + true + ');');
+            let minusImage = document.createElement('img');
+            minusImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            minusImage.setAttribute('src', '/images/minus.png');
+            minusImage.setAttribute('onclick', 'answerToInvitation(' + pendingInvitations[i].id + ', ' + false + ');');
+            invitationsLi.appendChild(minusImage);
+            invitationsLi.appendChild(plusImage);
+            invitationsUl.appendChild(invitationsLi);
+        }
+        invitationContainer.appendChild(invitationsUl);
     }
 }
 
+function answerToInvitation(id, isAccepted) {
+    const inputs = {
+        isAccepted: isAccepted
+    };
+    const invitationRequest = Object.assign({}, inputs);
+    request({
+        url: API_BASE_URL + '/invitation/' + id,
+        method: 'PUT',
+        body: JSON.stringify(invitationRequest)
+    }).then(response => {
+        response.json().then(json => {
+            if(response.ok) {
+                pendingInvitations = pendingInvitations.filter(item => item.id !== id);
+                renderPendingInvitations();
+                if(isAccepted) {
+                    getUserFriends();
+                } else {
+                    getUserNotFriends();
+                }
+            }
+        })
+    }).catch(error => {
+        console.log(error);
+    })
+}
+
 function renderMostActiveUsers() {
-    // console.log(mostActiveUsers);
     let mostActiveUsersContainer = document.getElementById("active-users-container");
     for (let i=0; i<mostActiveUsers.length; i++) {
         let userCol = document.createElement('div');
@@ -176,9 +285,6 @@ function renderMostActiveUsers() {
         userCol.innerHTML = "<h4>" + mostActiveUsers[i].user.name + "</h4><p>Training count: " + mostActiveUsers[i].trainingCount + "</p>";
         mostActiveUsersContainer.appendChild(userCol);
     }
-
-
-
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -187,4 +293,3 @@ document.addEventListener("DOMContentLoaded", function() {
     getPendingInvitations();
     getMostActiveUsers(3);
 });
-

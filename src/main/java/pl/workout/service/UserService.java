@@ -45,7 +45,9 @@ public class UserService {
     }
 
     public List<User> getAllNotFriendsById(Long id) {
-        return userRepository.getAllByFriendListIsNotContaining(getById(id));
+        List<User> notFriendsList =  userRepository.getAllByFriendListIsNotContaining(getById(id));
+        notFriendsList.remove(getById(id));
+        return notFriendsList;
     }
 
     public List<User> getAllFriendsById(Long id) {

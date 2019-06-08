@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
+    List<Invitation> getAllByUser1AndIsAcceptedFalse(User user);
+
     List<Invitation> getAllByUser2AndIsAcceptedFalse(User user);
 
     Invitation getById(Long id);
