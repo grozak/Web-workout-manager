@@ -7,11 +7,11 @@ public class InvitationRequest {
     @NotNull
     private boolean isAccepted;
 
-    public boolean isAccepted() {
+    public boolean getIsAccepted() {
         return isAccepted;
     }
 
-    public void setAccepted(boolean accepted) {
+    public void setIsAccepted(boolean accepted) {
         isAccepted = accepted;
     }
 }

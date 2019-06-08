@@ -297,7 +297,7 @@ function generateExerciseCard(exercise) {
     html+=
         '  </tbody>' +
         '</table>' +
-        '<button id="delete-exercise-button btn-sm ml-2" class="btn btn-danger mb-2 btn-sm" type="button" onclick="deleteExercise('+trainingId+','+v.id+')">Delete</button>' +
+        '<button id="delete-exercise-button btn-sm ml-2" class="btn btn-danger mb-2 btn-sm" type="button" onclick="deleteExercise('+v.id+','+trainingId+')">Delete</button>' +
         '</div>' +
         '</div>';
     return html;

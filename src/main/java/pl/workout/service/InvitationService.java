@@ -21,6 +21,10 @@ public class InvitationService {
         this.userRepository = userRepository;
     }
 
+    public List<Invitation> getAllInvitationsByUser(User user) {
+        return invitationRepository.getAllByUser1AndIsAcceptedFalse(user);
+    }
+
     public List<Invitation> getAllPendingByUser(User user) {
         return invitationRepository.getAllByUser2AndIsAcceptedFalse(user);
     }
@@ -30,13 +34,13 @@ public class InvitationService {
     }
 
     public Invitation createInvitation(User user1, User user2) {
-        return invitationRepository.save(new Invitation(user1, user2));
+        return invitationRepository.save(new Invitation(user1, user2, false));
     }
 
     public Invitation answerToInvitation(Long id, InvitationRequest invitationRequest) {
         Invitation invitation = getById(id);
 
-        if(invitationRequest.isAccepted()) {
+        if(invitationRequest.getIsAccepted()) {
             invitation.setAccepted(true);
             User user1 = invitation.getUser1();
             User user2 = invitation.getUser2();

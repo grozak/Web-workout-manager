@@ -12,22 +12,21 @@ public class Invitation {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     private User user1;
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     private User user2;
 
     @NotNull
-    private Boolean isAccepted = false;
+    private Boolean isAccepted;
 
     public Invitation(){}
 
-    public Invitation(User user1, User user2) {
+    public Invitation(User user1, User user2, Boolean isAccepted) {
         this.user1 = user1;
         this.user2 = user2;
+        this.isAccepted = isAccepted;
     }
 
     public Long getId() {
