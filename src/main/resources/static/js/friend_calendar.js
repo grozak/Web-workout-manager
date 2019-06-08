@@ -147,6 +147,7 @@ function loadCalendar() {
                 }
             }
             document.getElementById("preview").innerHTML='';
+            document.getElementById("panel").innerHTML='';
         }
     });
 }
