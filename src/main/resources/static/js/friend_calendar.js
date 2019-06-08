@@ -76,7 +76,7 @@ function logoutButton() {
     });
 }
 
-function getTrainingList() {
+function getUser() {
     if(localStorage.getItem(ACCESS_TOKEN)) {
         id = window.location.href.split('/calendar/')[1];
         request2({
@@ -85,6 +85,7 @@ function getTrainingList() {
         }).then(response => {
             response.json().then(json => {
                 if(response.ok) {
+                    document.getElementById('friend-calendar-header').innerText=json.name;
                     trainingList = json.trainingList;
                     loadCalendar();
                 }
@@ -104,7 +105,7 @@ var trainingList;
 var exerciseId;
 
 document.addEventListener("DOMContentLoaded", function() {
-    getTrainingList();
+    getUser();
 });
 
 function loadCalendar() {
@@ -178,7 +179,7 @@ function renderTrainingPreview(date) {
 
     html =
         '<h2 id="date">'+ date +'</h2>\n' +
-        '<h4>Your training: </h4>\n' +
+        '<h4>Training: </h4>\n' +
         '<div class="row">\n' +
         '  <div>\n' +
         '    <div class="list-group" id="list-tab" role="tablist">' +
