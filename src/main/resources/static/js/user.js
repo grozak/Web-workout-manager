@@ -136,11 +136,11 @@ function renderFriendList() {
             friendLi.setAttribute('class', 'list-group-item');
             friendLi.innerText = friendList[i].name + ' - ' + friendList[i].email;
             let eyeImage = document.createElement('img');
-            eyeImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            eyeImage.setAttribute('class', 'ml-2 float-right');
             eyeImage.setAttribute('src', '/images/eye.png');
             eyeImage.setAttribute('onclick', 'goToFriend(' + friendList[i].id + ');');
             let deleteImage = document.createElement('img');
-            deleteImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            deleteImage.setAttribute('class', 'ml-2 float-right');
             deleteImage.setAttribute('src', '/images/delete.png');
             deleteImage.setAttribute('onclick', 'deleteFriend(' + friendList[i].id + ');');
             friendLi.appendChild(deleteImage);
@@ -191,7 +191,7 @@ function renderNotFriendList() {
             notFriendLi.setAttribute('class', 'list-group-item');
             notFriendLi.innerText = notFriendList[i].name;
             let plusImage = document.createElement('img');
-            plusImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            plusImage.setAttribute('class', 'ml-2 float-right');
             plusImage.setAttribute('src', '/images/plus.png');
             plusImage.setAttribute('onclick', 'sendInvitation(' + notFriendList[i].id + ');');
             notFriendLi.appendChild(plusImage);
@@ -235,11 +235,11 @@ function renderPendingInvitations() {
             invitationsLi.setAttribute('class', 'list-group-item');
             invitationsLi.innerText = pendingInvitations[i].user1.name;
             let plusImage = document.createElement('img');
-            plusImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            plusImage.setAttribute('class', 'ml-2 float-right');
             plusImage.setAttribute('src', '/images/plus.png');
             plusImage.setAttribute('onclick', 'answerToInvitation(' + pendingInvitations[i].id + ', ' + true + ');');
             let minusImage = document.createElement('img');
-            minusImage.setAttribute('class', 'ml-2 float-right border border-secondary');
+            minusImage.setAttribute('class', 'ml-2 float-right');
             minusImage.setAttribute('src', '/images/minus.png');
             minusImage.setAttribute('onclick', 'answerToInvitation(' + pendingInvitations[i].id + ', ' + false + ');');
             invitationsLi.appendChild(minusImage);
