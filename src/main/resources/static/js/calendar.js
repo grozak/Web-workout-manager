@@ -150,6 +150,7 @@ var response;
 var responseBody;
 var trainingId = -1;
 var trainingList;
+var exerciseId;
 
 document.addEventListener("DOMContentLoaded", function() {
     getTrainingList();
@@ -272,6 +273,11 @@ function renderAllExercises() {
 }
 
 function generateExerciseCard(exercise) {
+    eid = exercise.id;
+    if(!eid) {
+        eid = exerciseId;
+    }
+
     html =
         '<div class="card mb-2">' +
         '<div class="card-body">'+
@@ -297,7 +303,7 @@ function generateExerciseCard(exercise) {
     html+=
         '  </tbody>' +
         '</table>' +
-        '<button id="delete-exercise-button btn-sm ml-2" class="btn btn-danger mb-2 btn-sm" type="button" onclick="deleteExercise('+v.id+','+trainingId+')">Delete</button>' +
+        '<button id="delete-exercise-button btn-sm ml-2" class="btn btn-danger mb-2 btn-sm" type="button" onclick="deleteExercise('+trainingId+','+eid+')">Delete</button>' +
         '</div>' +
         '</div>';
     return html;
@@ -472,7 +478,10 @@ function submit() {
             weights: weights
         };
         const exerciseRequest = Object.assign({}, inputs);
-        createExercise(trainingId , exerciseRequest);
+        createExercise(trainingId , exerciseRequest)
+            .then(() => {
+                exerciseId = parseInt(response.headers.get('Location').split('exercise/')[1])
+        });
 
         // Add exercise to preview and reset form
         document.getElementById("preview").innerHTML+=generateExerciseCard(inputs);
