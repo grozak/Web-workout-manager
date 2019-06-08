@@ -152,8 +152,7 @@ function renderFriendList() {
 }
 
 function goToFriend(id) {
-    console.log(id);
-    console.log("tutaj gościu")
+    window.location.href='/calendar/'+id;
 }
 
 function deleteFriend(id) {

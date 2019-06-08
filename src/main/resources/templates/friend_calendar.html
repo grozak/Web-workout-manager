@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Workout Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- datepicker includes -->
+    <link href="/css/datepicker/datepicker.css" rel="stylesheet" type="text/css">
+    <script src="/js/datepicker/datepicker.min.js"></script>
+    <script src="/js/datepicker/i18n/datepicker.en.js"></script>
+
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-light bg-light navbar-expand-lg" id="navbar">
+        <span>
+            <a class="navbar-brand" href="/">Main page</a>
+        </span>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item m-2">
+                    <a class="nav-link" href="/calendar">Calendar</a>
+                </li>
+                <li class="nav-item m-2">
+                    <a class="nav-link" href="/user">Friend Page</a>
+                </li>
+            </ul>
+        </div>
+        <span>
+            <a class="btn btn-outline-secondary" onclick="logoutButton();">Logout</a>
+        </span>
+    </nav>
+    <div class="container">
+        <div class="row justify-content-center">
+            <h2 id="friend-calendar-header"></h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6" id="calendar-container">
+                <div id="my-picker"></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div id="panel" class="col-md-6"></div>
+            <div id="preview" class="col-md-6"></div>
+        </div>
+    </div>
+    <footer class="page-footer font-small blue p-2">
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a class="text-secondary footer-link" href="/"> Web Workout Manager</a>
+        </div>
+    </footer>
+</div>
+<script src="/js/friend_calendar.js"></script>
+</body>
+</html>
