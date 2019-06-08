@@ -288,8 +288,8 @@ function renderMostActiveUsers() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    // getUserFriends();
-    // getUserNotFriends();
-    // getPendingInvitations();
+    getUserFriends();
+    getUserNotFriends();
+    getPendingInvitations();
     getMostActiveUsers(3);
 });
