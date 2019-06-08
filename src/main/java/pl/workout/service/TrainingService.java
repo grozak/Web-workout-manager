@@ -53,7 +53,12 @@ public class TrainingService {
         return trainingRepository.save(training);
     }
 
-    public void deleteTraining(Long id) {
-        trainingRepository.deleteById(id);
+    public boolean deleteTraining(Long id, User user) {
+        Training training = getById(id);
+        if (training.getUser().equals(user)){
+            trainingRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

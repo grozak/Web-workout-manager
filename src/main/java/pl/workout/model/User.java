@@ -37,7 +37,7 @@ public class User {
 
     private String providerId;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<User> friendList = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)

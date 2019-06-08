@@ -69,6 +69,28 @@ function createExercise(id , exerciseRequest) {
 
 }
 
+function deleteTraining(id) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/training/" + id,
+        method: 'DELETE'
+    }).then(() => location.reload());
+}
+
+function deleteExercise(id, eid) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/training/" + id + "/exercise/" + eid,
+        method: 'DELETE'
+    });
+}
+
 function logout() {
     return request({
         url: API_BASE_URL + "/auth/logout",
@@ -103,8 +125,8 @@ function getTrainingList() {
             })
         })
             .catch(error => {
-            console.log(error);
-        });
+                console.log(error);
+            });
     }
 }
 
@@ -133,10 +155,6 @@ document.addEventListener("DOMContentLoaded", function() {
     getTrainingList();
 });
 
-
-// TODO Loading dates of workouts and display them on calendar. Display workouts from database
-// TODO trainingList is already prepared and waits to be implemented
-
 function loadCalendar() {
     var $picker = $("#my-picker"),
         $content = $('#panel'),
@@ -163,7 +181,6 @@ function loadCalendar() {
 
         },
         onSelect: function onSelect(fd, date) {
-            document.getElementById("preview").innerHTML='';
             // If date with event is selected, show it
             trainingId = -1;
             var day = date.getDate();
@@ -178,6 +195,7 @@ function loadCalendar() {
                     return;
                 }
             }
+            document.getElementById("preview").innerHTML='';
             renderForm(fd);
         }
     });
@@ -199,8 +217,9 @@ function renderTrainingPreview(date) {
         trainingYear = parts[0];
         if(day === trainingDay && month === trainingMonth && year === trainingYear) {
             exercises = v.exerciseList;
+            trainingId = v.id;
+            break;
         }
-        console.log(exercises);
     }
 
     list = '';
@@ -215,12 +234,17 @@ function renderTrainingPreview(date) {
         '<div class="row">\n' +
         '  <div>\n' +
         '    <div class="list-group" id="list-tab" role="tablist">' +
-              list +
+        '<a class="list-group-item list-group-item-action" id="list-exercise-all" data-toggle="list" href="javascript:void(0)" onclick="renderAllExercises(exercises)">All exercises</a>' +
+        list +
+        '     <br>' +
+        '<button id="add-exercise-button" class="btn btn-success mb-2" type="button" onclick="renderAllExercises();renderForm()">Add exercise</button>' +
+        '<button id="delete-training-button" class="btn btn-danger mb-2" type="button" onclick="deleteTraining('+trainingId+')">Delete training</button>' +
         '    </div>\n' +
         '  </div>\n' +
         '</div>';
     document.getElementById("preview").innerHTML = '';
     document.getElementById('panel').innerHTML = html;
+    renderAllExercises();
 }
 
 function updatePreview(number) {
@@ -229,16 +253,61 @@ function updatePreview(number) {
         previous[0].className = "list-group-item list-group-item-action";
     }
     document.getElementById("list-exercise-"+number).className = "list-group-item list-group-item-action active";
-    html =
-        '<br>' +
-        '<h4>Exercise '+ number + '</h4>\n' +
-        '<p>Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym. Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z zawierającym różne wersje Lorem Ipsum oprogramowaniem przeznaczonym do realizacji druków na komputerach osobistych, jak Aldus PageMaker</p>'
 
+    exercise = exercises[number];
+    document.getElementById("preview").innerHTML = generateExerciseCard(exercise);
+}
+
+function renderAllExercises() {
+    let previous = document.getElementsByClassName("list-group-item list-group-item-action active");
+    if(previous.length !==0) {
+        previous[0].className = "list-group-item list-group-item-action";
+    }
+    document.getElementById("list-exercise-all").className = "list-group-item list-group-item-action active";
+    html='';
+    for(k in exercises) {
+        html+=generateExerciseCard(exercises[k]);
+    }
     document.getElementById("preview").innerHTML = html;
+}
+
+function generateExerciseCard(exercise) {
+    html =
+        '<div class="card mb-2">' +
+        '<div class="card-body">'+
+        '<h4 class="card-title">' + exercise.name + '</h4>\n' +
+        '<h6 class="card-subtitle mb-2">Category: ' + exercise.category + '</h6>' +
+        '<table class="table table-sm table-striped">' +
+        '  <thead>' +
+        '    <tr>' +
+        '      <th scope="col">Set number</th>' +
+        '      <th scope="col">Reps</th>' +
+        '      <th scope="col">Weight</th>' +
+        '    </tr>' +
+        '  </thead>' +
+        '  <tbody>';
+    for(let i=0; i<exercise.weights.length; i++) {
+        html+=
+            '<tr>' +
+            '  <td>Set '+(parseInt(i)+1)+'</td>' +
+            '  <td>'+exercise.numberOfReiteration[i] +'</td>' +
+            '  <td>'+exercise.weights[i] +'</td>' +
+            '</tr>';
+    }
+    html+=
+        '  </tbody>' +
+        '</table>' +
+        '<button id="delete-exercise-button btn-sm ml-2" class="btn btn-danger mb-2 btn-sm" type="button" onclick="deleteExercise('+trainingId+','+v.id+')">Delete</button>' +
+        '</div>' +
+        '</div>';
+    return html;
 }
 
 function renderForm(date) {
     //request categories from wger
+    if (date == null) {
+        date = document.getElementById("date").textContent;
+    }
     if(!Object.keys({}).length) {
         const request = new Request('https://wger.de/api/v2/exercisecategory/', {method: 'GET'});
         fetch(request)
@@ -360,9 +429,7 @@ function renderSeries() {
 }
 
 function submit() {
-    console.log('tak');
     let date = document.getElementById("date").textContent;
-    console.log(date);
     let category = document.getElementById("categories").options[document.getElementById("categories").selectedIndex].value;
     let exercise = document.getElementById("exercises").options[document.getElementById("exercises").selectedIndex].value;
     let numberOfSeries = parseInt(document.getElementById('series').value);
@@ -379,7 +446,6 @@ function submit() {
     }
 
     if(trainingId<0) {
-        console.log(date);
         const inputs = {
             date: date
         };
@@ -391,8 +457,7 @@ function submit() {
             })
             .then(() => postExercise());
 
-        document.getElementById("preview").innerHTML = '<h4>Added exercises:</h4>' +
-            '<ul class="list-group" id="preview-list"></ul>';
+        document.getElementById("preview").innerHTML = '<h4>Added exercises:</h4>';
     }
     else {
         postExercise();
@@ -406,13 +471,11 @@ function submit() {
             numberOfReiteration: reps,
             weights: weights
         };
-        console.log(inputs);
-        console.log(JSON.stringify(inputs));
         const exerciseRequest = Object.assign({}, inputs);
         createExercise(trainingId , exerciseRequest);
 
         // Add exercise to preview and reset form
-        document.getElementById("preview-list").innerHTML+='<li class="list-group-item">'+exercise+'</li>';
+        document.getElementById("preview").innerHTML+=generateExerciseCard(inputs);
         showFormWithCategories(document.getElementById("date").textContent);
     }
 }

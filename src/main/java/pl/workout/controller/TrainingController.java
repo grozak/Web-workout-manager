@@ -1,5 +1,6 @@
 package pl.workout.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -65,9 +66,13 @@ public class TrainingController {
 
     @DeleteMapping("/training/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> deleteTraining(@PathVariable("id") Long id) {
-        trainingService.deleteTraining(id);
-        return ResponseEntity.ok(new ApiResponse(true, "Training deleted."));
+    public ResponseEntity<?> deleteTraining(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
+        boolean result = trainingService.deleteTraining(id, userService.getById(userPrincipal.getId()));
+        if (result) {
+            return ResponseEntity.ok(new ApiResponse(true, "Training deleted."));
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse(false, "Delete not successful"));
+        }
     }
 
 }
