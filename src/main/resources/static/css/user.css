@@ -1,0 +1,13 @@
+li {
+    border: 1px solid #007bff!important;
+}
+
+#friend-container {
+    max-height: 700px;
+    overflow: auto;
+}
+
+#invitation-container, #not-friend-container {
+    max-height: 300px;
+    overflow: auto;
+}
