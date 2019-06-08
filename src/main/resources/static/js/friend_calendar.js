@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://web-workout-manager.herokuapp.com/api';
+const API_BASE_URL = '/api';
 const ACCESS_TOKEN = 'accessToken';
 
 if(localStorage.getItem(ACCESS_TOKEN) === null) {
