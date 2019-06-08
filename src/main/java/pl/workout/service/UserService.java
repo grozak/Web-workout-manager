@@ -10,6 +10,7 @@ import pl.workout.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -63,10 +64,20 @@ public class UserService {
         userRepository.save(friend);
     }
 
+//    public List<UserTrainingCount> getMostActiveUsers(int count) {
+//        List<User> mostActiveUsers = trainingRepository.getMostActiveUsers(count);
+//        List<UserTrainingCount> result = new ArrayList<>();
+//        mostActiveUsers.forEach(user -> result.add(new UserTrainingCount(user, trainingRepository.countByUser(user))));
+//        return result;
+//    }
+
     public List<UserTrainingCount> getMostActiveUsers(int count) {
-        List<User> mostActiveUsers = trainingRepository.getMostActiveUsers(count);
-        List<UserTrainingCount> result = new ArrayList<>();
-        mostActiveUsers.forEach(user -> result.add(new UserTrainingCount(user, trainingRepository.countByUser(user))));
-        return result;
+        List<User> users = userRepository.findAll();
+        List<UserTrainingCount> results = new ArrayList<>();
+        for (User user: users) {
+            results.add(new UserTrainingCount(user, trainingRepository.countByUser(user)));
+        }
+        results.sort((UserTrainingCount utc1, UserTrainingCount utc2) -> utc2.getTrainingCount().compareTo(utc1.getTrainingCount()));
+        return results.stream().limit(count).collect(Collectors.toList());
     }
 }
