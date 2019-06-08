@@ -30,4 +30,9 @@ public class HomePageController {
     public String getUserPage() {
         return "user";
     }
+
+    @GetMapping("/calendar/{id}")
+    public String getFriendPage() {
+        return "friend_calendar";
+    }
 }

@@ -157,9 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function loadCalendar() {
-    var $picker = $("#my-picker"),
-        $content = $('#panel'),
-        sentences = ['qwerwqerqwer', 'asdasdasdasd', 'asdasdasdasdas'];
+    var $picker = $("#my-picker");
     $picker.datepicker({
         language: 'en',
         dateFormat: 'dd-mm-yyyy',
