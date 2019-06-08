@@ -12,6 +12,10 @@
     margin-right:auto;
 }
 
+.footer-link {
+    text-decoration: none!important;
+}
+
 #preview {
     margin: 1rem auto;
 }

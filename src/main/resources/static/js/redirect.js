@@ -1,5 +1,3 @@
-// import {ACCESS_TOKEN} from "./constants.js"; TODO Not working for some reason
-
 const ACCESS_TOKEN = 'accessToken';
 
 function getUrlParameter(name) {

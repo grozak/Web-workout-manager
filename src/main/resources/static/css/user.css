@@ -15,3 +15,7 @@ li {
 img:hover {
     cursor: pointer;
 }
+
+.nav-item {
+    border: none!important;
+}
