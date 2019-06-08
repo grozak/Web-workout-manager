@@ -64,13 +64,6 @@ public class UserService {
         userRepository.save(friend);
     }
 
-//    public List<UserTrainingCount> getMostActiveUsers(int count) {
-//        List<User> mostActiveUsers = trainingRepository.getMostActiveUsers(count);
-//        List<UserTrainingCount> result = new ArrayList<>();
-//        mostActiveUsers.forEach(user -> result.add(new UserTrainingCount(user, trainingRepository.countByUser(user))));
-//        return result;
-//    }
-
     public List<UserTrainingCount> getMostActiveUsers(int count) {
         List<User> users = userRepository.findAll();
         List<UserTrainingCount> results = new ArrayList<>();
