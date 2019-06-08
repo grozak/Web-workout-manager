@@ -11,3 +11,7 @@ li {
     max-height: 300px;
     overflow: auto;
 }
+
+img:hover {
+    cursor: pointer;
+}
