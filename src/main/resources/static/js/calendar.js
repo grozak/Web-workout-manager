@@ -303,7 +303,7 @@ function generateExerciseCard(exercise) {
     html+=
         '  </tbody>' +
         '</table>' +
-        '<button id="delete-exercise-button btn-sm ml-2" class="btn btn-danger mb-2 btn-sm" type="button" onclick="deleteExercise('+trainingId+','+eid+')">Delete</button>' +
+        '<button id="delete-exercise-button" class="btn btn-danger mb-2 btn-sm" type="button" onclick="deleteExercise('+trainingId+','+eid+'); removeCard(this);";>Delete</button>' +
         '</div>' +
         '</div>';
     return html;
@@ -319,6 +319,7 @@ function renderForm(date) {
         fetch(request)
             .then(response => response.json())
             .then(categories => {
+                categoriesDict={};
                 for(let i=0; i<categories.results.length; i++) {
                     categoriesDict[categories.results[i].id] = categories.results[i].name;
                     categoriesOptions+='<option name="category">'+ categories.results[i].name +'</option>\n'
@@ -349,7 +350,8 @@ function showFormWithCategories(date) {
         '<input id="series" class="form-control" type="number" name="numberOfSeries" min="1" max="15" onchange="renderSeries()">' +
         '<span id="series-body"></span>' +
         '</form>' +
-        '<button id="exercise-button" class="btn btn-primary mb-2" type="button" onclick="submit()">Submit</button>'
+        '<button id="exercise-button" class="btn btn-primary mb-2" type="button" onclick="submit()">Add exercise</button><br>' +
+        '<button id="exercise-button" class="btn btn-dark mb-2" type="button" onclick="location.reload()">Save training</button>'
     document.getElementById('panel').innerHTML = html;
 }
 
@@ -487,4 +489,23 @@ function submit() {
         document.getElementById("preview").innerHTML+=generateExerciseCard(inputs);
         showFormWithCategories(document.getElementById("date").textContent);
     }
+}
+
+function removeCard(button) {
+    card = button.parentNode.parentNode;
+
+    let previous = document.getElementsByClassName("list-group-item list-group-item-action active")[0];
+    if(previous.id !== 'list-exercise-all') {
+        previous.parentNode.removeChild(previous);
+    }
+    else {
+        console.log(card);
+        cards = Array.from(document.getElementsByClassName('card mb-2'));
+        console.log(cards);
+        item = document.getElementById('list-exercise-'+cards.indexOf(card));
+        console.log(item);
+        console.log('list-exercise-'+cards.indexOf(card));
+        item.parentNode.removeChild(item);
+    }
+    card.parentNode.removeChild(card);
 }
