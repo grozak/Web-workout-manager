@@ -1,39 +1,37 @@
 os:
-  - linux
+- linux
 services:
-  - docker
+- docker
 language: java
 install: true
 jdk:
-  - oraclejdk8
+- oraclejdk8
 sudo: required
-
 script:
-  - ./gradlew pushImage -s
-
+- "./gradlew pushImage -s"
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 env:
   global:
-    - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
-    - SPRING_JPA_SHOW_SQL=false
+  - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
+  - SPRING_JPA_SHOW_SQL=false
+  - secure: bEvZ0bFvFnmd5bkq3Ct3tufL+PKGqlzM8bcvPACRyGikAzptB2Urrxv4MYjhvxtPDUVu7goQqjwBGr1ACnkBbMlm50oM6N8HdPKU5B06cgOATwlLz1vCSg8FYjpKk3ABmyssClSl1DQVcGSMHY0W14RFZLtdxJSiPtSgh4EAJEQRKCU7uwRiw3oUbzXCAl5VaNq2t7JQl+XIgxIcpOQ9M2PurEVAINty7QMqX4iHSrUd5Q4s+YhyO8IqubbvvsFi/14pObyUflmP23DGumag8w2xQH50LDRg9lSYeKURi6vRcGYGO2E9u6V/z/P1pzBkiqlOcDmofNqkOdmtVsap4gcwxTS8JXQFtfhNvXndO9Ph/s1GPSxWQG9cVVgI9fmj19z7XO0JCgNM9EtJ8ZckMIz0GTXhQnaujEQpEmUWImAzbY/k9KR+3dtqfXCM9G4LT1wjufxu3zsZ/gWI6BbniXl8zEpmLfq0NAVlITbJYfU5pxhFUyM74bAWwiTmYkP25A3Viqnbo1O+2davODEky7t1s1qXP3TBo5+ERK3x+0w4kxa+JQl0210HOdHQEj3Uphz1QvZcZM3Z37//1QQ9XHWzbHVL7OOUNGaHz7k65V/f19TpFaR8fB1SWaDXk98tze6K4AkrObp6mmq5jyxnilkdECV9LjPyINGV5AAzajw=
+  - secure: ba8VTFCD8wF89QFxVSM15O2ad7ZwKSANxH6BnXwwzrP9oXC4IjEWyj44mZnHisPOUJBH+BfncdGQ575VEVE/CcY4Ogmxl9f2MTuyWjLb1amto+QEXxq7lIHYWBks+s+4hjbKZ1jCoRr3EC24xWD2OWgUPuJFDHjbQDHAYbAo41eFy5Cc8qmob9wNZl5uHG1pF8Jnv0n79359n4uhiflcmXXlieGQVeRQFhThD8MWyVvlo+7SOelgfsyh8+tpthIrPqTzH42410Eb239Rn9J81+YrcJZlof9tDsLBbOAk5jhRb4laqVqm7lvRBdVipPOy6iC7mff/MD6zCgz1Ak3duy6fMTuOhU6vC23phbSdEIO1wxVu2GFpDWdfjvm9z78G8+3H6lvr6LRUD3jRBI01JPSn3o0rLS+mALN6B4YSlUNsGTvBpQDSlswAY6qXPbRpLNXK/8XQYLDXk+0O86o410PoWhgF+nRGuWc0Svtt9ItWC0nN8eNB6HDyeA9pn6PZgtZJnhePsJeEiWq0XNJXyv1KOS2YsCX7BE8ZJY+/clGKWsknjjjAeZJuDicPpLgZuvVqY5TJcqXIDH9iS/sUtrXK439dkgxR6m6LgyWjH5roUR04mbT3x4mP2Vn7aHL7kqYdhHA3X+wymHJuq+qcV0KIZXedUJ/AkVMzumgLI14=
 before_install:
-  - chmod +x gradlew
-  - jdk_switcher use oraclejdk8
-  - java -version
-  - sudo /etc/init.d/mysql stop
-  - sudo /etc/init.d/postgresql stop
+- chmod +x gradlew
+- jdk_switcher use oraclejdk8
+- java -version
+- sudo /etc/init.d/mysql stop
+- sudo /etc/init.d/postgresql stop
 notifications:
   email:
     recipients:
-      - dwitekw@gmail.com
-      - roziu135@gmail.com
-    on_success: never # default: change
-    on_failure: always # default: always
+    - dwitekw@gmail.com
+    - roziu135@gmail.com
+    on_success: never
+    on_failure: always
