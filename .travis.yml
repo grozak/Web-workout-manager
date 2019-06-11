@@ -32,6 +32,5 @@ notifications:
   email:
     recipients:
     - dwitekw@gmail.com
-    - roziu135@gmail.com
     on_success: never
     on_failure: always
