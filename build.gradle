@@ -1,7 +1,12 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
-	id 'com.bmuschko.docker-remote-api' version '3.2.5'
+	id 'com.bmuschko.docker-remote-api' version '3.4.4'
+}
+
+repositories {
+	mavenCentral()
+	jcenter()
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -10,10 +15,6 @@ group = 'pl'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-repositories {
-	mavenCentral()
-	jcenter()
-}
 
 ext {
 	set('springBootAdminVersion', '2.1.4')
