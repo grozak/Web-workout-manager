@@ -74,4 +74,11 @@ public class UserController {
     public ResponseEntity<List<UserTrainingCount>> getMostActiveUsers(@RequestParam(value = "count") int count) {
         return ResponseUtil.wrapOrNotFound(Optional.of(userService.getMostActiveUsers(count)));
     }
+
+    @DeleteMapping("/user")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteUser(@CurrentUser UserPrincipal userPrincipal) {
+        userService.deleteUser(userPrincipal.getId());
+        return ResponseEntity.ok(new ApiResponse(true, "User deleted."));
+    }
 }

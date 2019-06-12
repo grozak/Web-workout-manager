@@ -73,4 +73,8 @@ public class UserService {
         results.sort((UserTrainingCount utc1, UserTrainingCount utc2) -> utc2.getTrainingCount().compareTo(utc1.getTrainingCount()));
         return results.stream().limit(count).collect(Collectors.toList());
     }
+
+    public void deleteUser(Long id) {
+        userRepository.delete(getById(id));
+    }
 }
