@@ -8,7 +8,7 @@ https://web-workout-manager.herokuapp.com/
 https://hub.docker.com/r/dawd333/web-workout-manager
 
 ### Application description
-Application is an online workout manager which main goal is to help collecting your daily progress. It allows user to keep his workout details in one place in a form of calendar and share it with other people. It uses an external workout data from https://wger.de/api/v2/. There is a possibility to register and login using traditional style or via Facebook. Share your workout with your friends and together reach your dreams !!
+Application is an online workout manager which main goal is to help collecting your daily progress. It allows user to keep his workout details in one place in a form of calendar and share it with other people. It uses an external workout data from https://wger.de/api/v2/. There is a possibility to register and login using traditional style or via Facebook. Share your workout with your friends and together **reach your dreams !!**
 
 ### Requirements
 - Java 8
